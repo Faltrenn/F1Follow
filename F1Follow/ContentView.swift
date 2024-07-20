@@ -7,33 +7,47 @@
 
 import SwiftUI
 
+enum Pages: CaseIterable {
+    case standings, races
+    
+    var icon: Image {
+        switch self {
+        case .standings:
+            Image(systemName: "trophy")
+        case .races:
+            Image(systemName: "flag.checkered")
+        }
+    }
+}
+
 struct ContentView: View {
     @State var drivers: [Driver] = []
+    @State var page: Pages = .standings
     
     var body: some View {
-        ScrollView {
-            VStack {
-                ForEach(drivers, id: \.driverNumber) { driver in
-                    Text(driver.broadcastName)
-                        .foregroundStyle(Color(hex: driver.teamColour))
-                }
+        ZStack {
+            
+            switch page {
+            case .standings:
+                StandingsView()
+            case .races:
+                RacesView()
             }
-            .padding()
-        }
-        .onAppear() {
-            let url = URL(string: "https://api.openf1.org/v1/drivers?session_key=latest")
-            if let url = url {
-                URLSession.shared.dataTask(with: url) {data, response, error in
-                    if let data = data, error == nil {
-                        DispatchQueue.main.async {
-                            do {
-                                drivers = try JSONDecoder().decode([Driver].self, from: data)
-                            } catch {
-                                print(error)
+            
+            VStack {
+                Spacer()
+                HStack {
+                    Spacer()
+                    ForEach(Pages.allCases, id: \.self) { p in
+                        p.icon
+                            .font(.title)
+                            .foregroundStyle(p == page ? .blue : .black)
+                            .onTapGesture {
+                                page = p
                             }
-                        }
+                        Spacer()
                     }
-                }.resume()
+                }
             }
         }
     }

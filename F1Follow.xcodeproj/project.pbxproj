@@ -12,6 +12,12 @@
 		CC607CE12C4B2EC10036791C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC607CE02C4B2EC10036791C /* Assets.xcassets */; };
 		CC607CE52C4B2EC10036791C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC607CE42C4B2EC10036791C /* Preview Assets.xcassets */; };
 		CC607CF02C4B30D20036791C /* CommonModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC607CEF2C4B30D20036791C /* CommonModels.swift */; };
+		CC607CF42C4B4D140036791C /* RacesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC607CF32C4B4D140036791C /* RacesView.swift */; };
+		CC607CF62C4B4D230036791C /* RacesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC607CF52C4B4D230036791C /* RacesModel.swift */; };
+		CC607CF82C4B4D330036791C /* RacesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC607CF72C4B4D330036791C /* RacesViewModel.swift */; };
+		CC607CFA2C4B4F5C0036791C /* StandingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC607CF92C4B4F5C0036791C /* StandingsModel.swift */; };
+		CC607CFC2C4B4F6D0036791C /* StandingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC607CFB2C4B4F6D0036791C /* StandingsViewModel.swift */; };
+		CC607CFE2C4B4F780036791C /* StandingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC607CFD2C4B4F780036791C /* StandingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +28,12 @@
 		CC607CE22C4B2EC10036791C /* F1Follow.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = F1Follow.entitlements; sourceTree = "<group>"; };
 		CC607CE42C4B2EC10036791C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		CC607CEF2C4B30D20036791C /* CommonModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonModels.swift; sourceTree = "<group>"; };
+		CC607CF32C4B4D140036791C /* RacesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RacesView.swift; sourceTree = "<group>"; };
+		CC607CF52C4B4D230036791C /* RacesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RacesModel.swift; sourceTree = "<group>"; };
+		CC607CF72C4B4D330036791C /* RacesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RacesViewModel.swift; sourceTree = "<group>"; };
+		CC607CF92C4B4F5C0036791C /* StandingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandingsModel.swift; sourceTree = "<group>"; };
+		CC607CFB2C4B4F6D0036791C /* StandingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandingsViewModel.swift; sourceTree = "<group>"; };
+		CC607CFD2C4B4F780036791C /* StandingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +95,8 @@
 		CC607CEC2C4B30940036791C /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				CC607CF22C4B4CFF0036791C /* Races */,
+				CC607CF12C4B4CAB0036791C /* Standings */,
 				CC607CED2C4B30AF0036791C /* Common */,
 			);
 			path = Features;
@@ -102,6 +116,26 @@
 				CC607CEF2C4B30D20036791C /* CommonModels.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		CC607CF12C4B4CAB0036791C /* Standings */ = {
+			isa = PBXGroup;
+			children = (
+				CC607CF92C4B4F5C0036791C /* StandingsModel.swift */,
+				CC607CFD2C4B4F780036791C /* StandingsView.swift */,
+				CC607CFB2C4B4F6D0036791C /* StandingsViewModel.swift */,
+			);
+			path = Standings;
+			sourceTree = "<group>";
+		};
+		CC607CF22C4B4CFF0036791C /* Races */ = {
+			isa = PBXGroup;
+			children = (
+				CC607CF52C4B4D230036791C /* RacesModel.swift */,
+				CC607CF32C4B4D140036791C /* RacesView.swift */,
+				CC607CF72C4B4D330036791C /* RacesViewModel.swift */,
+			);
+			path = Races;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -176,7 +210,13 @@
 			files = (
 				CC607CDF2C4B2EC00036791C /* ContentView.swift in Sources */,
 				CC607CF02C4B30D20036791C /* CommonModels.swift in Sources */,
+				CC607CFA2C4B4F5C0036791C /* StandingsModel.swift in Sources */,
 				CC607CDD2C4B2EC00036791C /* F1FollowApp.swift in Sources */,
+				CC607CF82C4B4D330036791C /* RacesViewModel.swift in Sources */,
+				CC607CF62C4B4D230036791C /* RacesModel.swift in Sources */,
+				CC607CFE2C4B4F780036791C /* StandingsView.swift in Sources */,
+				CC607CFC2C4B4F6D0036791C /* StandingsViewModel.swift in Sources */,
+				CC607CF42C4B4D140036791C /* RacesView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
