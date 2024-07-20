@@ -8,14 +8,33 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var drivers: [Driver] = []
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        ScrollView {
+            VStack {
+                ForEach(drivers, id: \.driverNumber) { driver in
+                    Text(driver.broadcastName)
+                        .foregroundStyle(Color(hex: driver.teamColour))
+                    
+                }
+            }
+            .padding()
         }
-        .padding()
+        .onAppear() {
+            let url = URL(string: "https://api.openf1.org/v1/drivers?session_key=latest")
+            if let url = url {
+                URLSession.shared.dataTask(with: url) {data, response, error in
+                    if let data = data, error == nil {
+                        do {
+                            drivers = try JSONDecoder().decode([Driver].self, from: data)
+                        } catch {
+                            print(error)
+                        }
+                    }
+                }.resume()
+            }
+        }
     }
 }
 
