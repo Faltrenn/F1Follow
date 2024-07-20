@@ -26,10 +26,12 @@ struct ContentView: View {
             if let url = url {
                 URLSession.shared.dataTask(with: url) {data, response, error in
                     if let data = data, error == nil {
-                        do {
-                            drivers = try JSONDecoder().decode([Driver].self, from: data)
-                        } catch {
-                            print(error)
+                        DispatchQueue.main.async {
+                            do {
+                                drivers = try JSONDecoder().decode([Driver].self, from: data)
+                            } catch {
+                                print(error)
+                            }
                         }
                     }
                 }.resume()
