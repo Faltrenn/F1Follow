@@ -16,7 +16,6 @@ struct ContentView: View {
                 ForEach(drivers, id: \.driverNumber) { driver in
                     Text(driver.broadcastName)
                         .foregroundStyle(Color(hex: driver.teamColour))
-                    
                 }
             }
             .padding()

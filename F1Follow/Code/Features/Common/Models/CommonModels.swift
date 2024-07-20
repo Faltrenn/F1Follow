@@ -37,10 +37,7 @@ struct Driver: Codable {
 
 extension Color {
     init(hex: String) {
-        var cleanHexCode = hex.trimmingCharacters(in: .whitespacesAndNewlines)
-        var rgb: UInt64 = 0
-        
-        Scanner(string: cleanHexCode).scanHexInt64(&rgb)
+        let rgb: UInt64 = UInt64(hex, radix: 16)!
         
         let redValue = Double((rgb >> 16) & 0xFF) / 255.0
         let greenValue = Double((rgb >> 8) & 0xFF) / 255.0
