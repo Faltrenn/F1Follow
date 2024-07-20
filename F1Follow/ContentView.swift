@@ -10,12 +10,21 @@ import SwiftUI
 enum Pages: CaseIterable {
     case standings, races
     
-    var icon: Image {
+    var icon: String {
         switch self {
         case .standings:
-            Image(systemName: "trophy")
+            "trophy"
         case .races:
-            Image(systemName: "flag.checkered")
+            "flag.checkered"
+        }
+    }
+    
+    var title: String {
+        switch self {
+        case .standings:
+            "Standings"
+        case .races:
+            "Races"
         }
     }
 }
@@ -39,12 +48,15 @@ struct ContentView: View {
                 HStack {
                     Spacer()
                     ForEach(Pages.allCases, id: \.self) { p in
-                        p.icon
-                            .font(.title)
-                            .foregroundStyle(p == page ? .blue : .black)
-                            .onTapGesture {
-                                page = p
-                            }
+                        VStack {
+                            Image(systemName: p.icon)
+                                .font(.title)
+                                .onTapGesture {
+                                    page = p
+                                }
+                            Text(p.title)
+                        }
+                        .foregroundStyle(p == page ? .blue : .black)
                         Spacer()
                     }
                 }
