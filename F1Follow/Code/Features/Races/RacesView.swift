@@ -8,11 +8,17 @@
 import SwiftUI
 
 struct RacesView: View {
+    @EnvironmentObject var commonVM: CommonViewModel
+    
     var body: some View {
-        Text("Races!")
+        VStack {
+            ForEach(commonVM.drivers, id: \.driverNumber) { driver in
+                Text(driver.nameAcronym)
+            }
+        }
     }
 }
 
 #Preview {
-    RacesView()
+    ContentView(page: .races)
 }

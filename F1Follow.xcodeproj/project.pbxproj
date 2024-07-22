@@ -7,11 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CC5870BD2C4ECCEA009091BE /* CommonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5870BC2C4ECCEA009091BE /* CommonViewModel.swift */; };
 		CC607CDD2C4B2EC00036791C /* F1FollowApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC607CDC2C4B2EC00036791C /* F1FollowApp.swift */; };
 		CC607CDF2C4B2EC00036791C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC607CDE2C4B2EC00036791C /* ContentView.swift */; };
 		CC607CE12C4B2EC10036791C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC607CE02C4B2EC10036791C /* Assets.xcassets */; };
 		CC607CE52C4B2EC10036791C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC607CE42C4B2EC10036791C /* Preview Assets.xcassets */; };
-		CC607CF02C4B30D20036791C /* CommonModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC607CEF2C4B30D20036791C /* CommonModels.swift */; };
+		CC607CF02C4B30D20036791C /* CommonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC607CEF2C4B30D20036791C /* CommonModel.swift */; };
 		CC607CF42C4B4D140036791C /* RacesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC607CF32C4B4D140036791C /* RacesView.swift */; };
 		CC607CF62C4B4D230036791C /* RacesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC607CF52C4B4D230036791C /* RacesModel.swift */; };
 		CC607CF82C4B4D330036791C /* RacesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC607CF72C4B4D330036791C /* RacesViewModel.swift */; };
@@ -21,13 +22,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CC5870BC2C4ECCEA009091BE /* CommonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewModel.swift; sourceTree = "<group>"; };
 		CC607CD92C4B2EC00036791C /* F1Follow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = F1Follow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC607CDC2C4B2EC00036791C /* F1FollowApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = F1FollowApp.swift; sourceTree = "<group>"; };
 		CC607CDE2C4B2EC00036791C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		CC607CE02C4B2EC10036791C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CC607CE22C4B2EC10036791C /* F1Follow.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = F1Follow.entitlements; sourceTree = "<group>"; };
 		CC607CE42C4B2EC10036791C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		CC607CEF2C4B30D20036791C /* CommonModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonModels.swift; sourceTree = "<group>"; };
+		CC607CEF2C4B30D20036791C /* CommonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonModel.swift; sourceTree = "<group>"; };
 		CC607CF32C4B4D140036791C /* RacesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RacesView.swift; sourceTree = "<group>"; };
 		CC607CF52C4B4D230036791C /* RacesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RacesModel.swift; sourceTree = "<group>"; };
 		CC607CF72C4B4D330036791C /* RacesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RacesViewModel.swift; sourceTree = "<group>"; };
@@ -105,17 +107,10 @@
 		CC607CED2C4B30AF0036791C /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				CC607CEE2C4B30C10036791C /* Models */,
+				CC607CEF2C4B30D20036791C /* CommonModel.swift */,
+				CC5870BC2C4ECCEA009091BE /* CommonViewModel.swift */,
 			);
 			path = Common;
-			sourceTree = "<group>";
-		};
-		CC607CEE2C4B30C10036791C /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				CC607CEF2C4B30D20036791C /* CommonModels.swift */,
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		CC607CF12C4B4CAB0036791C /* Standings */ = {
@@ -208,8 +203,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC5870BD2C4ECCEA009091BE /* CommonViewModel.swift in Sources */,
 				CC607CDF2C4B2EC00036791C /* ContentView.swift in Sources */,
-				CC607CF02C4B30D20036791C /* CommonModels.swift in Sources */,
+				CC607CF02C4B30D20036791C /* CommonModel.swift in Sources */,
 				CC607CFA2C4B4F5C0036791C /* StandingsModel.swift in Sources */,
 				CC607CDD2C4B2EC00036791C /* F1FollowApp.swift in Sources */,
 				CC607CF82C4B4D330036791C /* RacesViewModel.swift in Sources */,
