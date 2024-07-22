@@ -31,7 +31,7 @@ enum Pages: CaseIterable {
 
 struct ContentView: View {
     @State var drivers: [Driver] = []
-    @State var page: Pages = .standings
+    @State var page: Pages = .races
     
     var body: some View {
         ZStack {
@@ -56,7 +56,7 @@ struct ContentView: View {
                                 }
                             Text(p.title)
                         }
-                        .foregroundStyle(p == page ? .blue : .black)
+                        .foregroundStyle(p == page ? .blue : .primary)
                         Spacer()
                     }
                 }
