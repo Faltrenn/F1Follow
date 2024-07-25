@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct RacesView: View {
-    @EnvironmentObject var commonVM: CommonViewModel
     @ObservedObject var racesVM = RacesViewModel(session: "latest")
     
     var body: some View {

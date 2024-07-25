@@ -30,7 +30,6 @@ enum Pages: CaseIterable {
 }
 
 struct ContentView: View {
-    @ObservedObject var commonVM = CommonViewModel()
     @State var page: Pages = .races
     
     var body: some View {
@@ -62,7 +61,6 @@ struct ContentView: View {
                 }
             }
         }
-        .environmentObject(commonVM)
     }
 }
 
