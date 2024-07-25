@@ -11,8 +11,8 @@ import SwiftUI
 
 class RacesViewModel: ObservableObject {
     @Published var drivers: [Driver] = []
-    @Published var driverPositions: [DriverPosition] = []
-    var allPositions: [DriverPosition] = []
+    @Published var driverPositions: [DriverPositionClass] = []
+    var allPositions: [DriverPositionClass] = []
     
     init(session: String) {
         fetchDrivers(session: session)
@@ -36,7 +36,7 @@ class RacesViewModel: ObservableObject {
     }
     
     func fetchDriverPositions(session: String) {
-        fetch(link: "https://api.openf1.org/v1/position?session_key=\(session)", listType: [DriverPosition].self) { list in
+        fetch(link: "https://api.openf1.org/v1/position?session_key=\(session)", listType: [DriverPositionClass].self) { list in
             self.allPositions = list
             for _ in 0..<20 {
                 self.driverPositions.append(self.allPositions.removeFirst())
@@ -66,9 +66,9 @@ class RacesViewModel: ObservableObject {
             guard allPositions.count >= 1 else { return }
             
             let o1 = self.allPositions.removeFirst()
-            let index = driverPositions.firstIndex(where: { d in
+            guard let index = driverPositions.firstIndex(where: { d in
                 d.driverNumber == o1.driverNumber
-            })
+            }) else { return }
             
             guard index != o1.position-1 else {
                 overtake()
@@ -79,6 +79,11 @@ class RacesViewModel: ObservableObject {
                 d.driverNumber == o1.driverNumber
             }
             driverPositions.insert(o1, at: o1.position-1)
+            
+            let inc = (index + 1 - o1.position-1) < 0 ? 1 : -1
+            for c in stride(from: index, to: o1.position-1, by: inc) {
+                driverPositions[c].position -= inc
+            }
         }
     }
 }

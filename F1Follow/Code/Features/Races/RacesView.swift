@@ -15,14 +15,10 @@ struct RacesView: View {
         VStack {
             HStack {
                 VStack {
-                    ForEach(0..<racesVM.drivers.count, id: \.self) { c in
-                        Text("\(c+1)")
-                    }
-                }
-                VStack {
                     ForEach(racesVM.driverPositions, id: \.driverNumber) { dp in
                         if let driver = racesVM.getDriverByNumber(number: dp.driverNumber) {
                             HStack {
+                                Text("\(dp.position)")
                                 Text(driver.nameAcronym)
                             }
                         }
