@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		CC5870BD2C4ECCEA009091BE /* CommonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5870BC2C4ECCEA009091BE /* CommonViewModel.swift */; };
+		CC5870C02C4EDEAD009091BE /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5870BF2C4EDEAD009091BE /* Utility.swift */; };
 		CC607CDD2C4B2EC00036791C /* F1FollowApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC607CDC2C4B2EC00036791C /* F1FollowApp.swift */; };
 		CC607CDF2C4B2EC00036791C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC607CDE2C4B2EC00036791C /* ContentView.swift */; };
 		CC607CE12C4B2EC10036791C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC607CE02C4B2EC10036791C /* Assets.xcassets */; };
@@ -23,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		CC5870BC2C4ECCEA009091BE /* CommonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewModel.swift; sourceTree = "<group>"; };
+		CC5870BF2C4EDEAD009091BE /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		CC607CD92C4B2EC00036791C /* F1Follow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = F1Follow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC607CDC2C4B2EC00036791C /* F1FollowApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = F1FollowApp.swift; sourceTree = "<group>"; };
 		CC607CDE2C4B2EC00036791C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -49,6 +51,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CC5870BE2C4EDE98009091BE /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				CC5870BF2C4EDEAD009091BE /* Utility.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
 		CC607CD02C4B2EC00036791C = {
 			isa = PBXGroup;
 			children = (
@@ -97,6 +107,7 @@
 		CC607CEC2C4B30940036791C /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				CC5870BE2C4EDE98009091BE /* Utility */,
 				CC607CF22C4B4CFF0036791C /* Races */,
 				CC607CF12C4B4CAB0036791C /* Standings */,
 				CC607CED2C4B30AF0036791C /* Common */,
@@ -206,6 +217,7 @@
 				CC5870BD2C4ECCEA009091BE /* CommonViewModel.swift in Sources */,
 				CC607CDF2C4B2EC00036791C /* ContentView.swift in Sources */,
 				CC607CF02C4B30D20036791C /* CommonModel.swift in Sources */,
+				CC5870C02C4EDEAD009091BE /* Utility.swift in Sources */,
 				CC607CFA2C4B4F5C0036791C /* StandingsModel.swift in Sources */,
 				CC607CDD2C4B2EC00036791C /* F1FollowApp.swift in Sources */,
 				CC607CF82C4B4D330036791C /* RacesViewModel.swift in Sources */,

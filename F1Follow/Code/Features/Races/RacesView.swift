@@ -9,13 +9,32 @@ import SwiftUI
 
 struct RacesView: View {
     @EnvironmentObject var commonVM: CommonViewModel
+    @ObservedObject var racesVM = RacesViewModel(session: "latest")
     
     var body: some View {
         VStack {
-            ForEach(commonVM.drivers, id: \.driverNumber) { driver in
-                Text(driver.nameAcronym)
+            HStack {
+                VStack {
+                    ForEach(0..<racesVM.drivers.count, id: \.self) { c in
+                        Text("\(c+1)")
+                    }
+                }
+                VStack {
+                    ForEach(racesVM.driverPositions, id: \.driverNumber) { dp in
+                        if let driver = racesVM.getDriverByNumber(number: dp.driverNumber) {
+                            HStack {
+                                Text(driver.nameAcronym)
+                            }
+                        }
+                    }
+                }
+            }
+            Button("Overtake") {
+                racesVM.overtake()
             }
         }
+        .font(.title)
+        .monospaced()
     }
 }
 
