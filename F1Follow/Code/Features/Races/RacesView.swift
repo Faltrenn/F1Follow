@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RacesView: View {
     @ObservedObject var racesVM = RacesViewModel(session: "latest")
+    let timer = Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()
     
     var body: some View {
         VStack {
@@ -24,12 +25,15 @@ struct RacesView: View {
                     }
                 }
             }
-            Button("Overtake") {
-                racesVM.overtake()
+            Button("Final") {
+                racesVM.endRace()
             }
         }
         .font(.title)
         .monospaced()
+        .onReceive(timer, perform: { _ in
+            racesVM.testFetch()
+        })
     }
 }
 

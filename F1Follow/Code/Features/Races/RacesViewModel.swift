@@ -19,13 +19,13 @@ class RacesViewModel: ObservableObject {
         fetchDriverPositions(session: session)
     }
     
-    func fetch<T: Decodable>(link: String, listType: T.Type, completion: @escaping (T) -> Void) {
+    func fetch<T: Decodable>(link: String, type: T.Type, completion: @escaping (T) -> Void) {
         if let url = URL(string: link) {
             URLSession.shared.dataTask(with: url) { data, _, error in
                 if let data = data, error == nil {
                     DispatchQueue.main.async {
                         do {
-                            completion(try JSONDecoder().decode(listType, from: data))
+                            completion(try JSONDecoder().decode(type, from: data))
                         } catch {
                             print(error)
                         }
@@ -36,7 +36,7 @@ class RacesViewModel: ObservableObject {
     }
     
     func fetchDriverPositions(session: String) {
-        fetch(link: "https://api.openf1.org/v1/position?session_key=\(session)", listType: [DriverPositionClass].self) { list in
+        fetch(link: "https://api.openf1.org/v1/position?session_key=\(session)", type: [DriverPositionClass].self) { list in
             self.allPositions = list
             for _ in 0..<20 {
                 self.driverPositions.append(self.allPositions.removeFirst())
@@ -47,13 +47,11 @@ class RacesViewModel: ObservableObject {
         }
     }
     
-    
     func fetchDrivers(session: String) {
-        fetch(link: "https://api.openf1.org/v1/drivers?session_key=\(session)", listType: [Driver].self) { list in
+        fetch(link: "https://api.openf1.org/v1/drivers?session_key=\(session)", type: [Driver].self) { list in
             self.drivers = list
         }
     }
-    
     
     func getDriverByNumber(number: Int) -> Driver? {
         drivers.first { driver in
@@ -61,29 +59,53 @@ class RacesViewModel: ObservableObject {
         }
     }
     
-    func overtake() {
-        withAnimation {
-            guard allPositions.count >= 1 else { return }
-            
-            let o1 = self.allPositions.removeFirst()
-            guard let index = driverPositions.firstIndex(where: { d in
-                d.driverNumber == o1.driverNumber
-            }) else { return }
-            
-            guard index != o1.position-1 else {
-                overtake()
-                return
-            }
-            
-            driverPositions.removeAll { d in
-                d.driverNumber == o1.driverNumber
-            }
-            driverPositions.insert(o1, at: o1.position-1)
-            
-            let inc = (index + 1 - o1.position-1) < 0 ? 1 : -1
-            for c in stride(from: index, to: o1.position-1, by: inc) {
-                driverPositions[c].position -= inc
+    func testFetch() {
+        var apiValues: [DriverPositionClass] = []
+        let length = Int.random(in: 0...4)
+        for _ in 0..<length {
+            guard allPositions.count > 0 else { break }
+            apiValues.append(allPositions.removeFirst())
+        }
+
+        var newValues: [DriverPositionClass] = []
+        for dp in apiValues.reversed() {
+            if newValues.first(where: { $0.driverNumber == dp.driverNumber }) == nil {
+                newValues.append(dp)
             }
         }
+ 
+        guard newValues.count >= 1 else { return }
+        makeOvertakes(overtakes: &newValues)
+    }
+    
+    func makeOvertakes(overtakes: inout [DriverPositionClass]) {
+        withAnimation {
+            while overtakes.count != 0 {
+                let nv = overtakes.removeFirst()
+                let index = driverPositions.firstIndex(where: { $0.driverNumber == nv.driverNumber })
+                if let index = index, index != nv.position-1 {
+                    driverPositions.remove(at: index)
+                    driverPositions.insert(nv, at: nv.position-1)
+                    
+                    // Reposicionando todos no caminho
+                    let inc = (index + 1 - nv.position-1) < 0 ? 1 : -1
+                    for c in stride(from: index, to: nv.position-1, by: inc) {
+                        driverPositions[c].position -= inc
+                    }
+                }
+            }
+        }
+    }
+    
+    func endRace() {
+        var lastValues: [DriverPositionClass] = []
+        for p in allPositions.reversed() {
+            if !lastValues.contains(where: { $0.driverNumber == p.driverNumber}) {
+                lastValues.insert(p, at: 0)
+            }
+        }
+        allPositions = []
+        lastValues.sort { $0.position > $1.position }
+        makeOvertakes(overtakes: &lastValues)
     }
 }
