@@ -19,8 +19,7 @@ extension Color {
 }
 
 extension Double {
-    var lapTime: String {
-        // Dividir o tempo em segundos e milissegundos
+    func lapTime(minimum: Bool = false) -> String {
         let totalSeconds = Int(self)
         let milliseconds = Int((self - Double(totalSeconds)) * 1000)
         
@@ -34,6 +33,9 @@ extension Double {
         
         // Formatando a string de saída
         let formattedMilliseconds = millisecondsFormatter.string(from: NSNumber(value: milliseconds)) ?? "000"
+        if minimum && minutes == 0 {
+            return String(format: "%02d:%@", seconds, formattedMilliseconds)
+        }
         return String(format: "%d:%02d:%@", minutes, seconds, formattedMilliseconds)
     }
 }
