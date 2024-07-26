@@ -51,3 +51,25 @@ class DriverPositionClass: ObservableObject, Codable {
         meetingKey = try container.decode(Int.self, forKey: .meetingKey)
     }
 }
+
+struct Lap: Codable {
+    let driverNumber: Int
+    let lapDuration: Double?
+    let isPitOutLap: Bool
+    let durationSector1, durationSector2, durationSector3: Double?
+    let lapNumber: Int
+
+    enum CodingKeys: String, CodingKey {
+        case driverNumber = "driver_number"
+        case lapDuration = "lap_duration"
+        case isPitOutLap = "is_pit_out_lap"
+        case durationSector1 = "duration_sector_1"
+        case durationSector2 = "duration_sector_2"
+        case durationSector3 = "duration_sector_3"
+        case lapNumber = "lap_number"
+    }
+    
+    func totalTime() -> Double {
+        (durationSector1 ?? 0) + (durationSector2 ?? 0) + (durationSector3 ?? 0)
+    }
+}

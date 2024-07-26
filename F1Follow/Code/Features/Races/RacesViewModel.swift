@@ -12,11 +12,15 @@ import SwiftUI
 class RacesViewModel: ObservableObject {
     @Published var drivers: [Driver] = []
     @Published var driverPositions: [DriverPositionClass] = []
+    @Published var laps: [Lap] = []
     var allPositions: [DriverPositionClass] = []
     
     init(session: String) {
         fetchDrivers(session: session)
         fetchDriverPositions(session: session)
+        fetchLaps(session: session)
+        Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(testFetch), userInfo: nil, repeats: true)
+
     }
     
     func fetch<T: Decodable>(link: String, type: T.Type, completion: @escaping (T) -> Void) {
@@ -35,12 +39,38 @@ class RacesViewModel: ObservableObject {
         }
     }
     
+    func fetchLaps(session: String) {
+        fetch(link: "https://api.openf1.org/v1/laps?session_key=\(session)", type: [Lap].self) { list in
+            var newLaps: [Lap] = []
+            for l in list.reversed() {
+                if !newLaps.contains(where: { $0.driverNumber == l.driverNumber}) {
+                    newLaps.append(l)
+                    if let index = self.laps.firstIndex(where:{ $0.driverNumber == l.driverNumber }) {
+                        self.laps[index] = l
+                    } else {
+                        self.laps.append(l)
+                    }
+                }
+            }
+        }
+    }
+    
     func fetchDriverPositions(session: String) {
         fetch(link: "https://api.openf1.org/v1/position?session_key=\(session)", type: [DriverPositionClass].self) { list in
             self.allPositions = list
-            for _ in 0..<20 {
-                self.driverPositions.append(self.allPositions.removeFirst())
+            var newPositions: [DriverPositionClass] = []
+            for pos in list.reversed() {
+                if !newPositions.contains(where: { $0.driverNumber == pos.driverNumber}) {
+                    newPositions.append(pos)
+                    if newPositions.count >= 20 {
+                        break
+                    }
+                }
             }
+            self.driverPositions = newPositions
+//            for _ in 0..<20 {
+//                self.driverPositions.append(self.allPositions.removeFirst())
+//            }
             self.driverPositions.sort { d1, d2 in
                 d1.position < d2.position
             }
@@ -59,23 +89,28 @@ class RacesViewModel: ObservableObject {
         }
     }
     
-    func testFetch() {
-        var apiValues: [DriverPositionClass] = []
-        let length = Int.random(in: 0...4)
-        for _ in 0..<length {
-            guard allPositions.count > 0 else { break }
-            apiValues.append(allPositions.removeFirst())
+    @objc func testFetch() {
+        withAnimation {
+            fetchLaps(session: "latest")
+            fetchDriverPositions(session: "latest")
         }
-
-        var newValues: [DriverPositionClass] = []
-        for dp in apiValues.reversed() {
-            if newValues.first(where: { $0.driverNumber == dp.driverNumber }) == nil {
-                newValues.append(dp)
-            }
-        }
- 
-        guard newValues.count >= 1 else { return }
-        makeOvertakes(overtakes: &newValues)
+        
+//        var apiValues: [DriverPositionClass] = []
+//        let length = Int.random(in: 0...4)
+//        for _ in 0..<length {
+//            guard allPositions.count > 0 else { break }
+//            apiValues.append(allPositions.removeFirst())
+//        }
+//
+//        var newValues: [DriverPositionClass] = []
+//        for dp in apiValues.reversed() {
+//            if newValues.first(where: { $0.driverNumber == dp.driverNumber }) == nil {
+//                newValues.append(dp)
+//            }
+//        }
+// 
+//        guard newValues.count >= 1 else { return }
+//        makeOvertakes(overtakes: &newValues)
     }
     
     func makeOvertakes(overtakes: inout [DriverPositionClass]) {
