@@ -17,3 +17,23 @@ extension Color {
         self.init(red: redValue, green: greenValue, blue: blueValue)
     }
 }
+
+extension Double {
+    var lapTime: String {
+        // Dividir o tempo em segundos e milissegundos
+        let totalSeconds = Int(self)
+        let milliseconds = Int((self - Double(totalSeconds)) * 1000)
+        
+        // Calcular minutos e segundos
+        let minutes = totalSeconds / 60
+        let seconds = totalSeconds % 60
+        
+        // Criar um NumberFormatter para formatar os milissegundos com três dígitos
+        let millisecondsFormatter = NumberFormatter()
+        millisecondsFormatter.minimumIntegerDigits = 3
+        
+        // Formatando a string de saída
+        let formattedMilliseconds = millisecondsFormatter.string(from: NSNumber(value: milliseconds)) ?? "000"
+        return String(format: "%d:%02d:%@", minutes, seconds, formattedMilliseconds)
+    }
+}

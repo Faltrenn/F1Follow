@@ -12,7 +12,7 @@ import SwiftUI
 class RacesViewModel: ObservableObject {
     @Published var drivers: [Driver] = []
     @Published var driverPositions: [DriverPositionClass] = []
-    @Published var laps: [Lap] = []
+    @Published var laps: [LapClass] = []
     var allPositions: [DriverPositionClass] = []
     
     init(session: String) {
@@ -40,8 +40,8 @@ class RacesViewModel: ObservableObject {
     }
     
     func fetchLaps(session: String) {
-        fetch(link: "https://api.openf1.org/v1/laps?session_key=\(session)", type: [Lap].self) { list in
-            var newLaps: [Lap] = []
+        fetch(link: "https://api.openf1.org/v1/laps?session_key=\(session)", type: [LapClass].self) { list in
+            var newLaps: [LapClass] = []
             for l in list.reversed() {
                 if !newLaps.contains(where: { $0.driverNumber == l.driverNumber}) {
                     newLaps.append(l)
@@ -90,10 +90,8 @@ class RacesViewModel: ObservableObject {
     }
     
     @objc func testFetch() {
-        withAnimation {
-            fetchLaps(session: "latest")
-            fetchDriverPositions(session: "latest")
-        }
+        fetchLaps(session: "latest")
+        fetchDriverPositions(session: "latest")
         
 //        var apiValues: [DriverPositionClass] = []
 //        let length = Int.random(in: 0...4)

@@ -9,7 +9,6 @@ import SwiftUI
 
 struct RacesView: View {
     @ObservedObject var racesVM = RacesViewModel(session: "latest")
-    @State var lapsL: [Lap] = []
     
     var body: some View {
         ScrollView {
@@ -25,10 +24,10 @@ struct RacesView: View {
                                     }
                                     if let lap = racesVM.laps.first(where: { $0.driverNumber == driver.driverNumber}), !lap.isPitOutLap{
                                         VStack {
-                                            Text("Sector 1: \(lap.durationSector1 ?? 0)")
-                                            Text("Sector 2: \(lap.durationSector2 ?? 0)")
-                                            Text("Sector 3: \(lap.durationSector3 ?? 0)")
-                                            Text("Total: \(lap.totalTime())")
+                                            Text("Sector 1: \((lap.durationSector1 ?? 0).lapTime)")
+                                            Text("Sector 2: \((lap.durationSector2 ?? 0).lapTime)")
+                                            Text("Sector 3: \((lap.durationSector3 ?? 0).lapTime)")
+                                            Text("Total: \(lap.totalTime().lapTime)")
                                         }
                                         .padding(.horizontal)
                                     }
