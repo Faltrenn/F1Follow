@@ -28,8 +28,8 @@ struct RacesView: View {
                                             Text("Sector 2: \((lap.durationSector2 ?? 0).lapTime)")
                                             Text("Sector 3: \((lap.durationSector3 ?? 0).lapTime)")
                                             Text("Total: \(lap.totalTime().lapTime)")
+                                            Text("Total: \(Date().timeIntervalSince(lap.dateStart!).lapTime)")
                                         }
-                                        .padding(.horizontal)
                                     }
                                 }
                             }

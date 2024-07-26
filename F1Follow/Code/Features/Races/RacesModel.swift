@@ -54,7 +54,7 @@ class DriverPositionClass: ObservableObject, Codable {
 
 class LapClass: ObservableObject, Codable {
     let driverNumber: Int
-    let dateStart: String
+    let dateStart: Date?
     let lapDuration: Double?
     let isPitOutLap: Bool
     let durationSector1, durationSector2, durationSector3: Double?
@@ -86,7 +86,11 @@ class LapClass: ObservableObject, Codable {
         driverNumber = try container.decode(Int.self, forKey: .driverNumber)
         lapDuration = try container.decode(Double?.self, forKey: .lapDuration)
         isPitOutLap = try container.decode(Bool.self, forKey: .isPitOutLap)
-        dateStart = try container.decode(String.self, forKey: .dateStart)
+        
+        let dateString = try container.decode(String.self, forKey: .dateStart)
+        let dateFormatter = ISO8601DateFormatter()
+        dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        dateStart = dateFormatter.date(from: dateString)
         
         durationSector1 = try container.decode(Double?.self, forKey: .durationSector1)
         durationSector2 = try container.decode(Double?.self, forKey: .durationSector2)
