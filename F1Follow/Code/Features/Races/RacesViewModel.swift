@@ -71,8 +71,10 @@ import SwiftUI
 //}
 
 class RacesViewModel: ObservableObject {
+    let session: String
     @Published var drivers: [Driver] = []
-    var session: String
+    var lastPosition: Position?
+    
     
     init(session: String) {
         self.session = session
@@ -103,4 +105,19 @@ class RacesViewModel: ObservableObject {
             }
         }
     }
+}
+
+struct test: View {
+    @ObservedObject var racesVM = RacesViewModel(session: "latest")
+    var body: some View {
+        VStack {
+            ForEach(racesVM.drivers, id: \.driverNumber) { driver in
+                Text(driver.lastName)
+            }
+        }
+    }
+}
+
+#Preview {
+    test()
 }

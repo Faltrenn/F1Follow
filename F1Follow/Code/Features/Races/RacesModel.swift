@@ -118,6 +118,7 @@ class Driver: ObservableObject, Codable {
 struct Position: Codable {
     let driverNumber: Int
     let date: Date?
+    let dateString: String
     let position: Int
 
     enum CodingKeys: String, CodingKey {
@@ -128,8 +129,10 @@ struct Position: Codable {
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.driverNumber = try container.decode(Int.self, forKey: .driverNumber)
-        let dateString = try container.decode(String.self, forKey: .date)
-        self.date = ISO8601DateFormatter().date(from: dateString)
+        self.dateString = try container.decode(String.self, forKey: .date)
+        let dateFormatter = ISO8601DateFormatter()
+        dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        self.date = dateFormatter.date(from: dateString)
         self.position = try container.decode(Int.self, forKey: .position)
     }
 }
