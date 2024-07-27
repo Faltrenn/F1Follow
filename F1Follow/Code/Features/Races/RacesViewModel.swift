@@ -70,3 +70,25 @@ import SwiftUI
 //    }
 //}
 
+class RacesViewModel: ObservableObject {
+    @Published var drivers: [Driver] = []
+    var session: String
+    
+    init(session: String) {
+        self.session = session
+        
+        if let url = URL(string: "https://api.openf1.org/v1/drivers?session_key=\(session)") {
+            URLSession.shared.dataTask(with: url) { data, response, error in
+                if let data = data, error == nil {
+                    DispatchQueue.main.async {
+                        do {
+                            self.drivers = try JSONDecoder().decode([Driver].self, from: data)
+                        } catch {
+                            print(error)
+                        }
+                    }
+                }
+            }.resume()
+        }
+    }
+}
