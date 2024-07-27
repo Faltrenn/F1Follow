@@ -77,6 +77,10 @@ class RacesViewModel: ObservableObject {
     init(session: String) {
         self.session = session
         
+        self.fetchDriver()
+    }
+    
+    func fetchDriver() {
         if let url = URL(string: "https://api.openf1.org/v1/drivers?session_key=\(session)") {
             URLSession.shared.dataTask(with: url) { data, response, error in
                 if let data = data, error == nil {
