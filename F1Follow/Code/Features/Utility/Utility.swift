@@ -21,22 +21,19 @@ extension Color {
 extension Double {
     func lapTime(minimum: Bool = false) -> String {
         let totalSeconds = Int(self)
-        let milliseconds = Int((self - Double(totalSeconds)) * 1000)
+        var milliseconds = String(self).split(separator: ".")[1]
+        let diff = 3 - milliseconds.count
+        if diff > 0 {
+            milliseconds += String(repeating: "0", count: diff)
+        }
         
-        // Calcular minutos e segundos
         let minutes = totalSeconds / 60
         let seconds = totalSeconds % 60
         
-        // Criar um NumberFormatter para formatar os milissegundos com três dígitos
-        let millisecondsFormatter = NumberFormatter()
-        millisecondsFormatter.minimumIntegerDigits = 3
-        
-        // Formatando a string de saída
-        let formattedMilliseconds = millisecondsFormatter.string(from: NSNumber(value: milliseconds)) ?? "000"
         if minimum && minutes == 0 {
-            return String(format: "%02d:%@", seconds, formattedMilliseconds)
+            return "\(seconds):\(milliseconds)"
         }
-        return String(format: "%d:%02d:%@", minutes, seconds, formattedMilliseconds)
+        return "\(minutes):\(seconds):\(milliseconds)"
     }
 }
 
