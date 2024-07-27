@@ -121,6 +121,7 @@ class RacesViewModel: ObservableObject {
                     }
                 }
             }
+            print("?")
         }
     }
     
@@ -129,20 +130,34 @@ class RacesViewModel: ObservableObject {
     }
 }
 
+struct DriverCard: View {
+    @ObservedObject var driver: Driver
+    @State var liveTime: Double = 0
+    let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
+    
+    var body: some View {
+        HStack {
+            Text(driver.lastName)
+            if let bestLap = driver.bestLap {
+                Text(bestLap.lapDuration!.lapTime())
+            }
+            Text(liveTime.lapTime())
+        }
+        .monospaced()
+        .onReceive(timer, perform: { _ in
+            if let lastLap = driver.lastLap {
+                liveTime = lastLap.lapLiveTime() ?? 0
+            }
+        })
+    }
+}
+
 struct test: View {
     @ObservedObject var racesVM = RacesViewModel(session: "latest")
     var body: some View {
         VStack {
             ForEach(racesVM.drivers, id: \.driverNumber) { driver in
-                HStack {
-                    Text(driver.lastName)
-                    if let bestLap = driver.bestLap {
-                        Text(bestLap.lapDuration!.lapTime())
-                    }
-                    if let liveTime = driver.lastLap?.lapLiveTime() {
-                        Text(liveTime.lapTime())
-                    }
-                }
+                DriverCard(driver: driver)
             }
         }
     }
