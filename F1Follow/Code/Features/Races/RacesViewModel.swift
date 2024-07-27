@@ -85,4 +85,21 @@ class RacesViewModel: ObservableObject {
             self.drivers = drivers
         }
     }
+    
+    func sortDrivers() {
+        fetch(link: "https://api.openf1.org/v1/position?session_key=\(session)", type: [Position].self) { positions in
+            var newPositions: [Position] = []
+            for position in positions.reversed() {
+                if !newPositions.contains(where: { $0.driverNumber == position.driverNumber }) {
+                    if let index = self.drivers.firstIndex(where: { $0.driverNumber == position.driverNumber }) {
+                        self.drivers.swapAt(index, position.position-1)
+                        newPositions.append(position)
+                        if newPositions.count >= 20 {
+                            break
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
