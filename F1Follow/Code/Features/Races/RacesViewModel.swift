@@ -86,6 +86,7 @@ class RacesViewModel: ObservableObject {
         fetch(link: "https://api.openf1.org/v1/drivers?session_key=\(session)", type: [Driver].self) { drivers in
             self.drivers = drivers
             self.sortDrivers()
+            self.refreshDriverLaps()
         }
     }
     
@@ -105,6 +106,27 @@ class RacesViewModel: ObservableObject {
             }
         }
     }
+    
+    func refreshDriverLaps() {
+        fetch(link: "https://api.openf1.org/v1/laps?session_key=\(session)", type: [Lap].self) { laps in
+            for lap in laps {
+                if let driver = self.getDriverByNumber(number: lap.driverNumber) {
+                    if driver.lastLap == nil || driver.lastLap!.lapNumber < lap.lapNumber {
+                        driver.lastLap = lap
+                    }
+                    if lap.lapDuration != nil {
+                        if driver.bestLap == nil || driver.bestLap!.lapDuration! > lap.lapDuration! {
+                            driver.bestLap = lap
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func getDriverByNumber(number: Int) -> Driver? {
+        self.drivers.first(where: { $0.driverNumber == number })
+    }
 }
 
 struct test: View {
@@ -112,7 +134,15 @@ struct test: View {
     var body: some View {
         VStack {
             ForEach(racesVM.drivers, id: \.driverNumber) { driver in
-                Text(driver.lastName)
+                HStack {
+                    Text(driver.lastName)
+                    if let bestLap = driver.bestLap {
+                        Text(bestLap.lapDuration!.lapTime())
+                    }
+                    if let liveTime = driver.lastLap?.lapLiveTime() {
+                        Text(liveTime.lapTime())
+                    }
+                }
             }
         }
     }

@@ -98,7 +98,9 @@ class Driver: ObservableObject, Codable {
     let driverNumber: Int
     let lastName: String
     let teamColour: String
-    @Published var position: Int = 0
+    @Published var position: Int
+    @Published var bestLap: Lap?
+    @Published var lastLap: Lap?
 
     enum CodingKeys: String, CodingKey {
         case driverNumber = "driver_number"
@@ -112,6 +114,9 @@ class Driver: ObservableObject, Codable {
         self.driverNumber = try container.decode(Int.self, forKey: .driverNumber)
         self.lastName = try container.decode(String.self, forKey: .lastName)
         self.teamColour = try container.decode(String.self, forKey: .teamColour)
+        self.position = 0
+        self.bestLap = nil
+        self.lastLap = nil
     }
 }
 
@@ -134,5 +139,54 @@ struct Position: Codable {
         dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
         self.date = dateFormatter.date(from: dateString)
         self.position = try container.decode(Int.self, forKey: .position)
+    }
+}
+
+class Lap: ObservableObject, Codable {
+    let dateStart: Date?
+    let driverNumber: Int
+    let isPitOutLap: Bool
+    let lapNumber: Int
+    @Published var durationSector1: Double?
+    @Published var durationSector2: Double?
+    @Published var durationSector3: Double?
+    @Published var lapDuration: Double?
+
+    enum CodingKeys: String, CodingKey {
+        case dateStart = "date_start"
+        case driverNumber = "driver_number"
+        case durationSector1 = "duration_sector_1"
+        case durationSector2 = "duration_sector_2"
+        case durationSector3 = "duration_sector_3"
+        case isPitOutLap = "is_pit_out_lap"
+        case lapDuration = "lap_duration"
+        case lapNumber = "lap_number"
+    }
+    
+    func encode(to encoder: any Encoder) throws {
+        
+    }
+
+    required init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        let dateFormatter = ISO8601DateFormatter()
+        dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        dateStart = dateFormatter.date(from: try container.decode(String.self, forKey: .dateStart))
+        
+        self.driverNumber = try container.decode(Int.self, forKey: .driverNumber)
+        self.durationSector1 = try container.decode(Double?.self, forKey: .durationSector1)
+        self.durationSector2 = try container.decode(Double?.self, forKey: .durationSector2)
+        self.durationSector3 = try container.decode(Double?.self, forKey: .durationSector3)
+        self.isPitOutLap = try container.decode(Bool.self, forKey: .isPitOutLap)
+        self.lapDuration = try container.decode(Double?.self, forKey: .lapDuration)
+        self.lapNumber = try container.decode(Int.self, forKey: .lapNumber)
+    }
+    
+    func lapLiveTime() -> Double? {
+        if let dateStart = self.dateStart {
+            return Date().timeIntervalSince(dateStart)
+        }
+        return nil
     }
 }
