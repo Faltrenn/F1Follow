@@ -83,6 +83,7 @@ class RacesViewModel: ObservableObject {
     func fetchDriver() {
         fetch(link: "https://api.openf1.org/v1/drivers?session_key=\(session)", type: [Driver].self) { drivers in
             self.drivers = drivers
+            self.sortDrivers()
         }
     }
     
