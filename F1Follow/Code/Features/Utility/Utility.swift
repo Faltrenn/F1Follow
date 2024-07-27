@@ -25,6 +25,8 @@ extension Double {
         let diff = 3 - milliseconds.count
         if diff > 0 {
             milliseconds += String(repeating: "0", count: diff)
+        } else {
+            milliseconds = milliseconds.prefix(3)
         }
         
         let minutes = totalSeconds / 60
