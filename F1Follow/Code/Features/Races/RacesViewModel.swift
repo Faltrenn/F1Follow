@@ -81,18 +81,8 @@ class RacesViewModel: ObservableObject {
     }
     
     func fetchDriver() {
-        if let url = URL(string: "https://api.openf1.org/v1/drivers?session_key=\(session)") {
-            URLSession.shared.dataTask(with: url) { data, response, error in
-                if let data = data, error == nil {
-                    DispatchQueue.main.async {
-                        do {
-                            self.drivers = try JSONDecoder().decode([Driver].self, from: data)
-                        } catch {
-                            print(error)
-                        }
-                    }
-                }
-            }.resume()
+        fetch(link: "https://api.openf1.org/v1/drivers?session_key=\(session)", type: [Driver].self) { drivers in
+            self.drivers = drivers
         }
     }
 }

@@ -39,3 +39,21 @@ extension Double {
         return String(format: "%d:%02d:%@", minutes, seconds, formattedMilliseconds)
     }
 }
+
+func fetch<T: Codable>(link: String, type: T.Type, completion: @escaping (T) -> Void) {
+    if let url = URL(string: link) {
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let data = data, error == nil {
+                DispatchQueue.main.async {
+                    do {
+                        completion(try JSONDecoder().decode(T.self, from: data))
+                    } catch {
+                        print(error)
+                    }
+                }
+            }
+        }.resume()
+    } else {
+        print("Link inválido!")
+    }
+}
