@@ -52,19 +52,18 @@ class DriverPositionClass: ObservableObject, Codable {
     }
 }
 
-class LapClass: ObservableObject, Codable {
+class Lap: ObservableObject, Codable {
     let driverNumber: Int
     let dateStart: Date?
-    let lapDuration: Double?
     let isPitOutLap: Bool
     let durationSector1, durationSector2, durationSector3: Double?
     let lapNumber: Int
     @Published var duration: Double = 0
+    let endLap: Bool
 
     enum CodingKeys: String, CodingKey {
         case driverNumber = "driver_number"
         case dateStart = "date_start"
-        case lapDuration = "lap_duration"
         case isPitOutLap = "is_pit_out_lap"
         case durationSector1 = "duration_sector_1"
         case durationSector2 = "duration_sector_2"
@@ -76,15 +75,10 @@ class LapClass: ObservableObject, Codable {
         (durationSector1 ?? 0) + (durationSector2 ?? 0) + (durationSector3 ?? 0)
     }
     
-    func encode(to encoder: any Encoder) throws {
-        
-    }
-    
     required init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         driverNumber = try container.decode(Int.self, forKey: .driverNumber)
-        lapDuration = try container.decode(Double?.self, forKey: .lapDuration)
         isPitOutLap = try container.decode(Bool.self, forKey: .isPitOutLap)
         
         let dateString = try container.decode(String.self, forKey: .dateStart)
@@ -96,5 +90,6 @@ class LapClass: ObservableObject, Codable {
         durationSector2 = try container.decode(Double?.self, forKey: .durationSector2)
         durationSector3 = try container.decode(Double?.self, forKey: .durationSector3)
         lapNumber = try container.decode(Int.self, forKey: .driverNumber)
+        endLap = (durationSector1 != nil && durationSector2 != nil && durationSector3 != nil)
     }
 }

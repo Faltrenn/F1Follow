@@ -8,24 +8,33 @@
 import Foundation
 import SwiftUI
 
-struct Driver: Codable {
-    let broadcastName: String
-    let countryCode: String
+class Driver: ObservableObject, Codable {
     let driverNumber: Int
-    let fullName: String
-    let headshotURL: String
+    let lastName: String
     let nameAcronym: String
     let teamColour: String
-    let teamName: String
+    @Published var position: Int = 0
+    @Published var fastestLap: Lap?
+    @Published var lastLap: Lap?
 
     enum CodingKeys: String, CodingKey {
-        case broadcastName  = "broadcast_name"
-        case countryCode    = "country_code"
+        case lastName       = "last_name"
         case driverNumber   = "driver_number"
-        case fullName       = "full_name"
-        case headshotURL    = "headshot_url"
         case nameAcronym    = "name_acronym"
         case teamColour     = "team_colour"
-        case teamName       = "team_name"
+    }
+}
+
+enum Sectors {
+    case yellow, green, purple
+    var color: Color {
+        switch self {
+        case .yellow:
+            Color.yellow
+        case .green:
+            Color.green
+        case .purple:
+            Color.purple
+        }
     }
 }
