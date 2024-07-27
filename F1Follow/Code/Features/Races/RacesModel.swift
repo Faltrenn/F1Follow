@@ -94,3 +94,23 @@ import Foundation
 //    }
 //}
 
+class Driver: ObservableObject, Codable {
+    let driverNumber: Int
+    let lastName: String
+    let teamColour: String
+    @Published var position: Int = 0
+
+    enum CodingKeys: String, CodingKey {
+        case driverNumber = "driver_number"
+        case lastName = "last_name"
+        case teamColour = "team_colour"
+    }
+    
+    required init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.driverNumber = try container.decode(Int.self, forKey: .driverNumber)
+        self.lastName = try container.decode(String.self, forKey: .lastName)
+        self.teamColour = try container.decode(String.self, forKey: .teamColour)
+    }
+}
