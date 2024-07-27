@@ -114,3 +114,22 @@ class Driver: ObservableObject, Codable {
         self.teamColour = try container.decode(String.self, forKey: .teamColour)
     }
 }
+
+struct Position: Codable {
+    let driverNumber: Int
+    let date: Date?
+    let position: Int
+
+    enum CodingKeys: String, CodingKey {
+        case driverNumber = "driver_number"
+        case date, position
+    }
+    
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.driverNumber = try container.decode(Int.self, forKey: .driverNumber)
+        let dateString = try container.decode(String.self, forKey: .date)
+        self.date = ISO8601DateFormatter().date(from: dateString)
+        self.position = try container.decode(Int.self, forKey: .position)
+    }
+}
