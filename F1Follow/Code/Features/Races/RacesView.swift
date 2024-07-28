@@ -126,10 +126,7 @@ struct SimpleDriverCard: View {
                 .bold()
                 .font(.title2)
             Spacer()
-            if let lap = driver.bestLap {
-                Text(lap.lapDuration!.lapTime())
-                    .font(.title2)
-            }
+            Text("\(driver.getPositionScore())")
         }
         .background(Color(red: 34/255, green: 34/255, blue: 43/255))
     }

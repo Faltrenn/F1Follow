@@ -32,10 +32,9 @@ struct SessionCard: View {
 }
 
 struct ResultsView: View {
-    @State var drivers: [Driver] = []
-    @State var positions: [Position] = []
+    @Binding var drivers: [Driver]
+    @Binding var positions: [Position]
     @State var fastestLap: Lap?
-    let session: String
     
     var body: some View {
         ScrollView {
@@ -45,33 +44,53 @@ struct ResultsView: View {
                 }
             }
         }
+    }
+    
+    func getDriverByNumber(number: Int) -> Driver? {
+        self.drivers.first(where: { $0.driverNumber == number })
+    }
+}
+
+struct SessionsView: View {
+    @State var positions: [Position] = []
+    @State var ranking: [Position] = []
+    @State var drivers: [Driver] = []
+    let session: String
+    var body: some View {
+        VStack {
+            NavigationLink {
+                ResultsView(drivers: $drivers, positions: $ranking)
+            } label: {
+                Text("Results")
+                    .font(.title)
+                    .bold()
+                    .padding(.leading)
+            }
+            .frame(maxWidth: .infinity, maxHeight: 75, alignment: .leading)
+            .background(.red)
+            NavigationLink {
+                Text("Replay")
+            } label: {
+                Text("Replay")
+                    .font(.title)
+                    .bold()
+                    .padding(.leading)
+            }
+            .frame(maxWidth: .infinity, maxHeight: 75, alignment: .leading)
+            .background(.red)
+        }
+        .tint(.primary)
         .onAppear {
-            fetchDriver()
+            fetchPositions()
+            fetchRanking()
+            fetchDrivers()
         }
     }
     
-    func fetchDriver() {
+    func fetchDrivers() {
         fetch(link: "https://api.openf1.org/v1/drivers?session_key=\(session)", type: [Driver].self) { drivers in
             self.drivers = drivers
-            self.fetchPositions()
             self.refreshDriverLaps()
-        }
-    }
-    
-    func fetchPositions() {
-        fetch(link: "https://api.openf1.org/v1/position?session_key=\(session)", type: [Position].self) { positions in
-            for position in positions.reversed() {
-                if !self.positions.contains(where: { $0.driverNumber == position.driverNumber }) {
-                    if let index = self.drivers.firstIndex(where: { $0.driverNumber == position.driverNumber }) {
-                        self.drivers[index].position = position.position
-                        self.positions.append(position)
-                        if self.positions.count >= 20 {
-                            break
-                        }
-                    }
-                }
-            }
-            self.positions.sort { $0.position < $1.position }
         }
     }
     
@@ -117,37 +136,35 @@ struct ResultsView: View {
         }
     }
     
+    func fetchPositions() {
+        fetch(link: "https://api.openf1.org/v1/position?session_key=\(session)", type: [Position].self) { positions in
+            self.positions = positions
+        }
+    }
+    
+    func fetchRanking() {
+        fetch(link: "https://api.openf1.org/v1/position?session_key=\(session)", type: [Position].self) { positions in
+            for position in positions.reversed() {
+                if !self.ranking.contains(where: { $0.driverNumber == position.driverNumber }) {
+                    if let index = self.drivers.firstIndex(where: { $0.driverNumber == position.driverNumber }) {
+                        withAnimation {
+                            self.drivers[index].position = position.position
+                            self.drivers.swapAt(index, position.position-1)
+                        }
+                        self.ranking.append(position)
+                        if self.ranking.count >= 20 {
+                            break
+                        }
+                    }
+                }
+            }
+            self.ranking.sort { $0.position < $1.position }
+        }
+    }
+    
+    
     func getDriverByNumber(number: Int) -> Driver? {
         self.drivers.first(where: { $0.driverNumber == number })
-    }
-}
-
-struct SessionsView: View {
-    let session: String
-    var body: some View {
-        VStack {
-            NavigationLink {
-                ResultsView(session: session)
-            } label: {
-                Text("Results")
-                    .font(.title)
-                    .bold()
-                    .padding(.leading)
-            }
-            .frame(maxWidth: .infinity, maxHeight: 75, alignment: .leading)
-            .background(.red)
-            NavigationLink {
-                Text("Replay")
-            } label: {
-                Text("Replay")
-                    .font(.title)
-                    .bold()
-                    .padding(.leading)
-            }
-            .frame(maxWidth: .infinity, maxHeight: 75, alignment: .leading)
-            .background(.red)
-        }
-        .tint(.primary)
     }
 }
 

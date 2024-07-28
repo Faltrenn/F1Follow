@@ -148,6 +148,33 @@ class Driver: ObservableObject, Codable {
         self.bestSectors = [0, 0, 0]
         self.sectors = [nil, nil, nil]
     }
+    
+    func getPositionScore() -> Int {
+        switch self.position {
+        case 1:
+            25
+        case 2:
+            18
+        case 3:
+            15
+        case 4:
+            12
+        case 5:
+            10
+        case 6:
+            8
+        case 7:
+            6
+        case 8:
+            4
+        case 9:
+            2
+        case 10:
+            1
+        default:
+            0
+        }
+    }
 }
 
 struct Position: Codable {
