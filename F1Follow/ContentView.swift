@@ -76,6 +76,29 @@ struct Session: Codable {
     }
 }
 
+struct SessionCard: View {
+    let session: Session
+    
+    var body: some View {
+        HStack {
+            VStack {
+                Text("Dia")
+                Text("Mes")
+                    .padding(.horizontal)
+                    .background(.gray)
+            }
+            VStack(alignment: .leading) {
+                Text(session.sessionName)
+                    .font(.title2)
+                    .bold()
+                Text("Veja os detalhes")
+                    .font(.caption2)
+            }
+        }
+        .tint(.primary)
+    }
+}
+
 struct ContentView: View {
     @State var year: Int = 2024
 //    @ObservedObject var cVM = ContentViewModel()
@@ -115,22 +138,7 @@ struct ContentView: View {
                                         NavigationLink {
                                             Text("boa")
                                         } label: {
-                                            HStack {
-                                                VStack {
-                                                    Text("Dia")
-                                                    Text("Mes")
-                                                        .padding(.horizontal)
-                                                        .background(.gray)
-                                                }
-                                                VStack(alignment: .leading) {
-                                                    Text(session.sessionName)
-                                                        .font(.title2)
-                                                        .bold()
-                                                    Text("Veja os detalhes")
-                                                        .font(.caption2)
-                                                }
-                                            }
-                                            .tint(.primary)
+                                            SessionCard(session: session)
                                         }
                                     }
                                 }
