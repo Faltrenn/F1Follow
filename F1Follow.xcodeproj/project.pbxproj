@@ -20,6 +20,8 @@
 		CC607CFA2C4B4F5C0036791C /* StandingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC607CF92C4B4F5C0036791C /* StandingsModel.swift */; };
 		CC607CFC2C4B4F6D0036791C /* StandingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC607CFB2C4B4F6D0036791C /* StandingsViewModel.swift */; };
 		CC607CFE2C4B4F780036791C /* StandingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC607CFD2C4B4F780036791C /* StandingsView.swift */; };
+		CCA0BD7C2C56A8EE00DDAED6 /* MeetingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA0BD7B2C56A8EE00DDAED6 /* MeetingsView.swift */; };
+		CCA0BD7E2C56A90900DDAED6 /* MeetingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA0BD7D2C56A90900DDAED6 /* MeetingsModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +40,8 @@
 		CC607CF92C4B4F5C0036791C /* StandingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandingsModel.swift; sourceTree = "<group>"; };
 		CC607CFB2C4B4F6D0036791C /* StandingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandingsViewModel.swift; sourceTree = "<group>"; };
 		CC607CFD2C4B4F780036791C /* StandingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandingsView.swift; sourceTree = "<group>"; };
+		CCA0BD7B2C56A8EE00DDAED6 /* MeetingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingsView.swift; sourceTree = "<group>"; };
+		CCA0BD7D2C56A90900DDAED6 /* MeetingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingsModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +111,8 @@
 		CC607CEC2C4B30940036791C /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				CCA0BD7A2C56A8D800DDAED6 /* Sessions */,
+				CCA0BD792C56A8BC00DDAED6 /* Meetings */,
 				CC5870BE2C4EDE98009091BE /* Utility */,
 				CC607CF22C4B4CFF0036791C /* Races */,
 				CC607CF12C4B4CAB0036791C /* Standings */,
@@ -142,6 +148,22 @@
 				CC607CF72C4B4D330036791C /* RacesViewModel.swift */,
 			);
 			path = Races;
+			sourceTree = "<group>";
+		};
+		CCA0BD792C56A8BC00DDAED6 /* Meetings */ = {
+			isa = PBXGroup;
+			children = (
+				CCA0BD7B2C56A8EE00DDAED6 /* MeetingsView.swift */,
+				CCA0BD7D2C56A90900DDAED6 /* MeetingsModel.swift */,
+			);
+			path = Meetings;
+			sourceTree = "<group>";
+		};
+		CCA0BD7A2C56A8D800DDAED6 /* Sessions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Sessions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -214,9 +236,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCA0BD7C2C56A8EE00DDAED6 /* MeetingsView.swift in Sources */,
 				CC5870BD2C4ECCEA009091BE /* CommonViewModel.swift in Sources */,
 				CC607CDF2C4B2EC00036791C /* ContentView.swift in Sources */,
 				CC607CF02C4B30D20036791C /* CommonModel.swift in Sources */,
+				CCA0BD7E2C56A90900DDAED6 /* MeetingsModel.swift in Sources */,
 				CC5870C02C4EDEAD009091BE /* Utility.swift in Sources */,
 				CC607CFA2C4B4F5C0036791C /* StandingsModel.swift in Sources */,
 				CC607CDD2C4B2EC00036791C /* F1FollowApp.swift in Sources */,

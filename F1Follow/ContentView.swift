@@ -8,57 +8,20 @@
 import SwiftUI
 
 class ContentViewModel: ObservableObject {
-    @Published var gps: [GP] = [
-            GP(circuitKey: 1, circuitShortName: "Monza", countryCode: "IT", countryKey: 39, location: "Monza, Italy", meetingKey: 101, meetingOfficialName: "Italian Grand Prix", year: 2024),
-            GP(circuitKey: 2, circuitShortName: "Silverstone", countryCode: "GB", countryKey: 44, location: "Silverstone, UK", meetingKey: 102, meetingOfficialName: "British Grand Prix", year: 2024),
-            GP(circuitKey: 3, circuitShortName: "Spa", countryCode: "BE", countryKey: 32, location: "Spa, Belgium", meetingKey: 103, meetingOfficialName: "Belgian Grand Prix", year: 2024),
-            GP(circuitKey: 4, circuitShortName: "Suzuka", countryCode: "JP", countryKey: 81, location: "Suzuka, Japan", meetingKey: 104, meetingOfficialName: "Japanese Grand Prix", year: 2024),
-            GP(circuitKey: 5, circuitShortName: "Interlagos", countryCode: "BR", countryKey: 55, location: "São Paulo, Brazil", meetingKey: 105, meetingOfficialName: "Brazilian Grand Prix", year: 2024)
-        ]
+    @Published var gps: [Meeting] = [
+        Meeting(circuitKey: 1, circuitShortName: "Monza", countryCode: "IT", countryKey: 39, location: "Monza, Italy", meetingKey: 101, meetingOfficialName: "Italian Grand Prix", year: 2024),
+        Meeting(circuitKey: 2, circuitShortName: "Silverstone", countryCode: "GB", countryKey: 44, location: "Silverstone, UK", meetingKey: 102, meetingOfficialName: "British Grand Prix", year: 2024),
+        Meeting(circuitKey: 3, circuitShortName: "Spa", countryCode: "BE", countryKey: 32, location: "Spa, Belgium", meetingKey: 103, meetingOfficialName: "Belgian Grand Prix", year: 2024),
+        Meeting(circuitKey: 4, circuitShortName: "Suzuka", countryCode: "JP", countryKey: 81, location: "Suzuka, Japan", meetingKey: 104, meetingOfficialName: "Japanese Grand Prix", year: 2024),
+        Meeting(circuitKey: 5, circuitShortName: "Interlagos", countryCode: "BR", countryKey: 55, location: "São Paulo, Brazil", meetingKey: 105, meetingOfficialName: "Brazilian Grand Prix", year: 2024)
+    ]
     
     var year: Int = 0
     
     func start(year: Int) {
         self.year = year
-        fetch(link: String(format: "https://api.openf1.org/v1/meetings?year=%d", year), type: [GP].self) { gps in
+        fetch(link: String(format: "https://api.openf1.org/v1/meetings?year=%d", year), type: [Meeting].self) { gps in
             self.gps = gps
-        }
-    }
-}
-
-struct GP: Codable {
-    let circuitKey: Int
-    let circuitShortName, countryCode: String
-    let countryKey: Int
-    let location: String
-    let meetingKey: Int
-    let meetingOfficialName: String
-    let year: Int
-
-    enum CodingKeys: String, CodingKey {
-        case circuitKey = "circuit_key"
-        case circuitShortName = "circuit_short_name"
-        case countryCode = "country_code"
-        case countryKey = "country_key"
-        case location
-        case meetingKey = "meeting_key"
-        case meetingOfficialName = "meeting_official_name"
-        case year
-    }
-}
-
-struct GPCard: View {
-    let gp: GP
-    let round: Int
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text("ROUND \(round)")
-                .font(.subheadline)
-                .foregroundStyle(.red)
-            Text(gp.circuitShortName)
-                .font(.title2)
-                .bold()
-            Text(gp.meetingOfficialName)
         }
     }
 }
@@ -102,12 +65,12 @@ struct SessionCard: View {
 struct ContentView: View {
     @State var year: Int = 2024
 //    @ObservedObject var cVM = ContentViewModel()
-    @State var gps: [GP] = [
-            GP(circuitKey: 1, circuitShortName: "Monza", countryCode: "IT", countryKey: 39, location: "Monza, Italy", meetingKey: 101, meetingOfficialName: "Italian Grand Prix", year: 2024),
-            GP(circuitKey: 2, circuitShortName: "Silverstone", countryCode: "GB", countryKey: 44, location: "Silverstone, UK", meetingKey: 102, meetingOfficialName: "British Grand Prix", year: 2024),
-            GP(circuitKey: 3, circuitShortName: "Spa", countryCode: "BE", countryKey: 32, location: "Spa, Belgium", meetingKey: 103, meetingOfficialName: "Belgian Grand Prix", year: 2024),
-            GP(circuitKey: 4, circuitShortName: "Suzuka", countryCode: "JP", countryKey: 81, location: "Suzuka, Japan", meetingKey: 104, meetingOfficialName: "Japanese Grand Prix", year: 2024),
-            GP(circuitKey: 5, circuitShortName: "Interlagos", countryCode: "BR", countryKey: 55, location: "São Paulo, Brazil", meetingKey: 105, meetingOfficialName: "Brazilian Grand Prix", year: 2024)
+    @State var gps: [Meeting] = [
+        Meeting(circuitKey: 1, circuitShortName: "Monza", countryCode: "IT", countryKey: 39, location: "Monza, Italy", meetingKey: 101, meetingOfficialName: "Italian Grand Prix", year: 2024),
+        Meeting(circuitKey: 2, circuitShortName: "Silverstone", countryCode: "GB", countryKey: 44, location: "Silverstone, UK", meetingKey: 102, meetingOfficialName: "British Grand Prix", year: 2024),
+        Meeting(circuitKey: 3, circuitShortName: "Spa", countryCode: "BE", countryKey: 32, location: "Spa, Belgium", meetingKey: 103, meetingOfficialName: "Belgian Grand Prix", year: 2024),
+        Meeting(circuitKey: 4, circuitShortName: "Suzuka", countryCode: "JP", countryKey: 81, location: "Suzuka, Japan", meetingKey: 104, meetingOfficialName: "Japanese Grand Prix", year: 2024),
+        Meeting(circuitKey: 5, circuitShortName: "Interlagos", countryCode: "BR", countryKey: 55, location: "São Paulo, Brazil", meetingKey: 105, meetingOfficialName: "Brazilian Grand Prix", year: 2024)
         ]
     
     var body: some View {
@@ -146,7 +109,7 @@ struct ContentView: View {
                                     
                                 }
                             } label: {
-                                GPCard(gp: gp, round: c+1)
+                                MeetingCard(gp: gp, round: c+1)
                             }
                             .tint(.primary)
                         }
