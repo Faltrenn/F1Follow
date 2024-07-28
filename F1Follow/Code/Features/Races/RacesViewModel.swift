@@ -111,7 +111,15 @@ class RacesViewModel: ObservableObject {
     
     func refreshDriverLaps() {
         fetch(link: "https://api.openf1.org/v1/laps?session_key=\(session)", type: [Lap].self) { laps in
+            var bestSectors: [Double] = [0, 0, 0]
             for lap in laps {
+                for c in 0...2 {
+                    if let time = lap.sectorsTimes[c] {
+                        if time < bestSectors[c] {
+                            bestSectors[c] = time
+                        }
+                    }
+                }
                 if let driver = self.getDriverByNumber(number: lap.driverNumber) {
                     if driver.lastLap == nil || driver.lastLap!.lapNumber < lap.lapNumber {
                         driver.lastLap = lap
@@ -119,6 +127,23 @@ class RacesViewModel: ObservableObject {
                     if lap.lapDuration != nil {
                         if driver.bestLap == nil || driver.bestLap!.lapDuration! > lap.lapDuration! {
                             driver.bestLap = lap
+                        }
+                    }
+                }
+            }
+            for driver in self.drivers {
+                if let lap = driver.lastLap {
+                    for c in 0...2 {
+                        if let lapTime = lap.sectorsTimes[c] {
+                            withAnimation {
+                                if lapTime == bestSectors[c] {
+                                    driver.sectors[c] = .purple
+                                } else if lapTime <= driver.bestSectors[c] {
+                                    driver.sectors[c] = .green
+                                } else {
+                                    driver.sectors[c] = .yellow
+                                }                                
+                            }
                         }
                     }
                 }
@@ -131,20 +156,20 @@ class RacesViewModel: ObservableObject {
     }
 }
 
-struct test: View {
-    @ObservedObject var racesVM = RacesViewModel(session: "latest")
-    var body: some View {
-        ScrollView {
-            VStack {
-                ForEach(racesVM.drivers, id: \.driverNumber) { driver in
-                    DriverCard(driver: driver)
-                }
-            }
-            .background(Color(red: 34/255, green: 34/255, blue: 43/255))
-        }
-    }
-}
-
-#Preview {
-    test()
-}
+//struct test: View {
+//    @ObservedObject var racesVM = RacesViewModel(session: "latest")
+//    var body: some View {
+//        ScrollView {
+//            VStack {
+//                ForEach(racesVM.drivers, id: \.driverNumber) { driver in
+//                    DriverCard(driver: driver)
+//                }
+//            }
+//            .background(Color(red: 34/255, green: 34/255, blue: 43/255))
+//        }
+//    }
+//}
+//
+//#Preview {
+//    test()
+//}

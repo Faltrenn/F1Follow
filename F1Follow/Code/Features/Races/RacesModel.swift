@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import SwiftUI
 
 //struct DriverPosition: Codable {
 //    var position: Int
@@ -94,6 +94,31 @@ import Foundation
 //    }
 //}
 
+enum Sector {
+    case yellow, green, purple
+    
+    
+    var view: any View {
+        VStack(spacing: 4) {
+            Text("S1")
+            Rectangle()
+                .foregroundStyle(color)
+                .frame(height: 5)
+        }
+    }
+    
+    var color: Color {
+        switch self {
+        case .yellow:
+            .yellow
+        case .green:
+            .green
+        case .purple:
+            .purple
+        }
+    }
+}
+
 class Driver: ObservableObject, Codable {
     let driverNumber: Int
     let lastName: String
@@ -101,6 +126,8 @@ class Driver: ObservableObject, Codable {
     @Published var position: Int
     @Published var bestLap: Lap?
     @Published var lastLap: Lap?
+    @Published var bestSectors: [Double]
+    @Published var sectors: [Sector?]
 
     enum CodingKeys: String, CodingKey {
         case driverNumber = "driver_number"
@@ -117,6 +144,8 @@ class Driver: ObservableObject, Codable {
         self.position = 0
         self.bestLap = nil
         self.lastLap = nil
+        self.bestSectors = [0, 0, 0]
+        self.sectors = [nil, nil, nil]
     }
 }
 
@@ -147,6 +176,7 @@ class Lap: ObservableObject, Codable {
     let driverNumber: Int
     let isPitOutLap: Bool
     let lapNumber: Int
+    @Published var sectorsTimes: [Double?]
     @Published var durationSector1: Double?
     @Published var durationSector2: Double?
     @Published var durationSector3: Double?
@@ -181,6 +211,11 @@ class Lap: ObservableObject, Codable {
         self.isPitOutLap = try container.decode(Bool.self, forKey: .isPitOutLap)
         self.lapDuration = try container.decode(Double?.self, forKey: .lapDuration)
         self.lapNumber = try container.decode(Int.self, forKey: .lapNumber)
+        self.sectorsTimes = [
+            try container.decode(Double?.self, forKey: .durationSector1),
+            try container.decode(Double?.self, forKey: .durationSector2),
+            try container.decode(Double?.self, forKey: .durationSector3)
+        ]
     }
     
     func lapLiveTime() -> Double? {

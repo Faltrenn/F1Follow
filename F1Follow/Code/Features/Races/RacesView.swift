@@ -12,7 +12,7 @@ struct DriverCard: View {
     @ObservedObject var driver: Driver
     @State var liveTime: Double = 0
     @State var showInfo = false
-    let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
+    let liveTimer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
     
     var body: some View {
         VStack {
@@ -59,7 +59,7 @@ struct DriverCard: View {
                 HStack {
                     Spacer()
                     if let lap = driver.lastLap {
-                        Text(liveTime.lapTime())
+                        Text(lap.isPitOutLap ? "OUT LAP" : liveTime.lapTime())
                             .bold()
                             .font(.title)
                     }
@@ -76,26 +76,26 @@ struct DriverCard: View {
                     VStack(spacing: 4) {
                         Text("S1")
                         Rectangle()
-//                            .foregroundStyle(driver.sector1?.color ?? .gray)
+                            .foregroundStyle(driver.sectors[0]?.color ?? .gray)
                             .frame(height: 5)
                     }
                     VStack(spacing: 4) {
                         Text("S2")
                         Rectangle()
-//                            .foregroundStyle(driver.sector2?.color ?? .gray)
+                            .foregroundStyle(driver.sectors[1]?.color ?? .gray)
                             .frame(height: 5)
                     }
                     VStack(spacing: 4) {
                         Text("S3")
                         Rectangle()
-//                            .foregroundStyle(driver.sector3?.color ?? .gray)
+                            .foregroundStyle(driver.sectors[2]?.color ?? .gray)
                             .frame(height: 5)
                     }
                 }
             }
         }
         .background(Color(red: 21/255, green: 20/255, blue: 30/255))
-        .onReceive(timer, perform: { _ in
+        .onReceive(liveTimer, perform: { _ in
             if showInfo, let lastLap = driver.lastLap {
                 liveTime = lastLap.lapLiveTime() ?? 0
             }
@@ -105,6 +105,7 @@ struct DriverCard: View {
 
 struct RacesView: View {
     @ObservedObject var racesVM = RacesViewModel(session: "latest")
+    let refreshTimer = Timer.publish(every: 5.0, on: .main, in: .common).autoconnect()
     
     var body: some View {
         ScrollView {
@@ -116,6 +117,10 @@ struct RacesView: View {
             .background(Color(red: 34/255, green: 34/255, blue: 43/255))
         }
         .preferredColorScheme(.dark)
+        .onReceive(refreshTimer, perform: { _ in
+            racesVM.sortDrivers()
+            racesVM.refreshDriverLaps()
+        })
     }
 }
 
