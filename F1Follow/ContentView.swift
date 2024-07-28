@@ -47,6 +47,22 @@ struct GP: Codable {
     }
 }
 
+struct GPCard: View {
+    let gp: GP
+    let round: Int
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text("ROUND \(round)")
+                .font(.subheadline)
+                .foregroundStyle(.red)
+            Text(gp.circuitShortName)
+                .font(.title2)
+                .bold()
+            Text(gp.meetingOfficialName)
+        }
+    }
+}
+
 struct ContentView: View {
     @State var year: Int = 2024
     @ObservedObject var cVM = ContentViewModel()
@@ -68,15 +84,7 @@ struct ContentView: View {
                         ForEach(Array(zip(cVM.gps.indices, cVM.gps)), id: \.1.circuitKey) { c, gp in
                             NavigationLink {
                             } label: {
-                                VStack(alignment: .leading) {
-                                    Text("ROUND \(c+1)")
-                                        .font(.subheadline)
-                                        .foregroundStyle(.red)
-                                    Text(gp.circuitShortName)
-                                        .font(.title2)
-                                        .bold()
-                                    Text(gp.meetingOfficialName)
-                                }
+                                GPCard(gp: gp, round: c+1)
                             }
                             .tint(.primary)
                         }
