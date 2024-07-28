@@ -22,6 +22,8 @@
 		CC607CFE2C4B4F780036791C /* StandingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC607CFD2C4B4F780036791C /* StandingsView.swift */; };
 		CCA0BD7C2C56A8EE00DDAED6 /* MeetingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA0BD7B2C56A8EE00DDAED6 /* MeetingsView.swift */; };
 		CCA0BD7E2C56A90900DDAED6 /* MeetingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA0BD7D2C56A90900DDAED6 /* MeetingsModel.swift */; };
+		CCA0BD802C56A9BF00DDAED6 /* SessionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA0BD7F2C56A9BF00DDAED6 /* SessionsModel.swift */; };
+		CCA0BD822C56A9D800DDAED6 /* SessionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA0BD812C56A9D800DDAED6 /* SessionsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +44,8 @@
 		CC607CFD2C4B4F780036791C /* StandingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandingsView.swift; sourceTree = "<group>"; };
 		CCA0BD7B2C56A8EE00DDAED6 /* MeetingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingsView.swift; sourceTree = "<group>"; };
 		CCA0BD7D2C56A90900DDAED6 /* MeetingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingsModel.swift; sourceTree = "<group>"; };
+		CCA0BD7F2C56A9BF00DDAED6 /* SessionsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsModel.swift; sourceTree = "<group>"; };
+		CCA0BD812C56A9D800DDAED6 /* SessionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +166,8 @@
 		CCA0BD7A2C56A8D800DDAED6 /* Sessions */ = {
 			isa = PBXGroup;
 			children = (
+				CCA0BD7F2C56A9BF00DDAED6 /* SessionsModel.swift */,
+				CCA0BD812C56A9D800DDAED6 /* SessionsView.swift */,
 			);
 			path = Sessions;
 			sourceTree = "<group>";
@@ -240,11 +246,13 @@
 				CC5870BD2C4ECCEA009091BE /* CommonViewModel.swift in Sources */,
 				CC607CDF2C4B2EC00036791C /* ContentView.swift in Sources */,
 				CC607CF02C4B30D20036791C /* CommonModel.swift in Sources */,
+				CCA0BD802C56A9BF00DDAED6 /* SessionsModel.swift in Sources */,
 				CCA0BD7E2C56A90900DDAED6 /* MeetingsModel.swift in Sources */,
 				CC5870C02C4EDEAD009091BE /* Utility.swift in Sources */,
 				CC607CFA2C4B4F5C0036791C /* StandingsModel.swift in Sources */,
 				CC607CDD2C4B2EC00036791C /* F1FollowApp.swift in Sources */,
 				CC607CF82C4B4D330036791C /* RacesViewModel.swift in Sources */,
+				CCA0BD822C56A9D800DDAED6 /* SessionsView.swift in Sources */,
 				CC607CF62C4B4D230036791C /* RacesModel.swift in Sources */,
 				CC607CFE2C4B4F780036791C /* StandingsView.swift in Sources */,
 				CC607CFC2C4B4F6D0036791C /* StandingsViewModel.swift in Sources */,

@@ -26,45 +26,8 @@ class ContentViewModel: ObservableObject {
     }
 }
 
-struct Session: Codable {
-    let dateStart: Date
-    let sessionKey: Int
-    let sessionName, sessionType: String
-
-    enum CodingKeys: String, CodingKey {
-        case dateStart = "date_start"
-        case sessionKey = "session_key"
-        case sessionName = "session_name"
-        case sessionType = "session_type"
-    }
-}
-
-struct SessionCard: View {
-    let session: Session
-    
-    var body: some View {
-        HStack {
-            VStack {
-                Text("Dia")
-                Text("Mes")
-                    .padding(.horizontal)
-                    .background(.gray)
-            }
-            VStack(alignment: .leading) {
-                Text(session.sessionName)
-                    .font(.title2)
-                    .bold()
-                Text("Veja os detalhes")
-                    .font(.caption2)
-            }
-        }
-        .tint(.primary)
-    }
-}
-
 struct ContentView: View {
     @State var year: Int = 2024
-//    @ObservedObject var cVM = ContentViewModel()
     @State var gps: [Meeting] = [
         Meeting(circuitKey: 1, circuitShortName: "Monza", countryCode: "IT", countryKey: 39, location: "Monza, Italy", meetingKey: 101, meetingOfficialName: "Italian Grand Prix", year: 2024),
         Meeting(circuitKey: 2, circuitShortName: "Silverstone", countryCode: "GB", countryKey: 44, location: "Silverstone, UK", meetingKey: 102, meetingOfficialName: "British Grand Prix", year: 2024),
