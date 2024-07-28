@@ -31,23 +31,37 @@ struct ContentView: View {
                     }
                     .pickerStyle(.segmented)
                 }
-                ScrollView {
-                    VStack(alignment: .leading) {
-                        ForEach(Array(zip(meetings.indices, meetings)), id: \.1.circuitKey) { c, meeting in
-                            NavigationLink {
-                                MeetingsView(meeting: meeting)
-                            } label: {
-                                MeetingCard(meeting: meeting, round: c+1)
+                if meetings.count > 0 {
+                    ScrollView {
+                        VStack(alignment: .leading) {
+                            ForEach(Array(zip(meetings.indices, meetings)), id: \.1.circuitKey) { c, meeting in
+                                NavigationLink {
+                                    MeetingsView(meeting: meeting)
+                                } label: {
+                                    MeetingCard(meeting: meeting, round: c+1)
+                                }
+                                .tint(.primary)
                             }
-                            .tint(.primary)
                         }
                     }
+                } else {
+                    Spacer()
+                        .frame(maxWidth: .infinity)
+                        .overlay(alignment: .center) {
+                            ProgressView()
+                        }
                 }
             }
         }
         .monospaced()
+        .onChange(of: year, { oldValue, newValue in
+            self.meetings = []
+            fetch(link: "https://api.openf1.org/v1/meetings?year=\(year)", type: [Meeting].self) { meetings in
+                self.meetings = meetings
+            }
+        })
         .onAppear {
-            fetch(link: String(format: "https://api.openf1.org/v1/meetings?year=%d", year), type: [Meeting].self) { meetings in
+            fetch(link: "https://api.openf1.org/v1/meetings?year=\(year)", type: [Meeting].self) { meetings in
                 self.meetings = meetings
             }
         }

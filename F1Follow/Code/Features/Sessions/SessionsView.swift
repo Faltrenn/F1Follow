@@ -58,26 +58,20 @@ struct SessionsView: View {
     let session: String
     var body: some View {
         VStack {
-            NavigationLink {
-                ResultsView(drivers: $drivers, positions: $ranking)
-            } label: {
-                Text("Results")
-                    .font(.title)
-                    .bold()
-                    .padding(.leading)
+            if ranking.count > 0 && drivers.count > 0 {
+                NavigationLink {
+                    ResultsView(drivers: $drivers, positions: $ranking)
+                } label: {
+                    Text("Results")
+                        .font(.title)
+                        .bold()
+                        .padding(.leading)
+                }
+                .frame(maxWidth: .infinity, maxHeight: 75, alignment: .leading)
+                .background(.red)
+            } else {
+                ProgressView()
             }
-            .frame(maxWidth: .infinity, maxHeight: 75, alignment: .leading)
-            .background(.red)
-            NavigationLink {
-                Text("Replay")
-            } label: {
-                Text("Replay")
-                    .font(.title)
-                    .bold()
-                    .padding(.leading)
-            }
-            .frame(maxWidth: .infinity, maxHeight: 75, alignment: .leading)
-            .background(.red)
         }
         .tint(.primary)
         .onAppear {
