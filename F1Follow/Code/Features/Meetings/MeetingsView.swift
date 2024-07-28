@@ -36,7 +36,7 @@ struct MeetingsView: View {
         VStack(alignment: .leading) {
             ForEach(sessions, id: \.sessionKey) { session in
                 NavigationLink {
-                    SessionsView()
+                    SessionsView(session: "\(session.sessionKey)")
                 } label: {
                     SessionCard(session: session)
                 }

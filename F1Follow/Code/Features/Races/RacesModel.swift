@@ -135,6 +135,7 @@ class Driver: ObservableObject, Codable {
         case teamColour = "team_colour"
     }
     
+    
     required init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
@@ -202,7 +203,7 @@ class Lap: ObservableObject, Codable {
         
         let dateFormatter = ISO8601DateFormatter()
         dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-        dateStart = dateFormatter.date(from: try container.decode(String.self, forKey: .dateStart))
+        dateStart = dateFormatter.date(from: try container.decode(String?.self, forKey: .dateStart) ?? "")
         
         self.driverNumber = try container.decode(Int.self, forKey: .driverNumber)
         self.durationSector1 = try container.decode(Double?.self, forKey: .durationSector1)

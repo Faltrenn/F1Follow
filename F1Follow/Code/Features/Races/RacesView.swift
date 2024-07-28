@@ -103,6 +103,38 @@ struct DriverCard: View {
     }
 }
 
+struct SimpleDriverCard: View {
+    @ObservedObject var driver: Driver
+    
+    var body: some View {
+        HStack {
+            HStack(spacing: 0) {
+                Rectangle()
+                    .fill(.clear)
+                    .aspectRatio(1, contentMode: .fit)
+                    .fixedSize(horizontal: true, vertical: false)
+                    .overlay {
+                        Text("\(driver.position)")
+                            .monospaced()
+                    }
+                Rectangle()
+                    .fill(Color(hex: driver.teamColour))
+                    .aspectRatio(1, contentMode: .fit)
+                    .fixedSize(horizontal: true, vertical: false)
+            }
+            Text(driver.lastName)
+                .bold()
+                .font(.title2)
+            Spacer()
+            if let lap = driver.bestLap {
+                Text(lap.lapDuration!.lapTime())
+                    .font(.title2)
+            }
+        }
+        .background(Color(red: 34/255, green: 34/255, blue: 43/255))
+    }
+}
+
 struct RacesView: View {
     @ObservedObject var racesVM = RacesViewModel(session: "latest")
     let refreshTimer = Timer.publish(every: 5.0, on: .main, in: .common).autoconnect()
