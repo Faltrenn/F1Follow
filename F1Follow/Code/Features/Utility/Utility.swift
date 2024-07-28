@@ -52,7 +52,5 @@ func fetch<T: Codable>(link: String, type: T.Type, completion: @escaping (T) -> 
                 }
             }
         }.resume()
-    } else {
-        print("Link inválido!")
     }
 }

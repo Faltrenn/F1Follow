@@ -124,6 +124,6 @@ struct RacesView: View {
     }
 }
 
-#Preview {
-    ContentView(page: .races)
-}
+//#Preview {
+//    ContentView(page: .races)
+//}
