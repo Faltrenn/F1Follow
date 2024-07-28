@@ -10,13 +10,14 @@ import SwiftUI
 
 struct ContentView: View {
     @State var year: Int = 2024
-    @State var gps: [Meeting] = [
-        Meeting(circuitKey: 1, circuitShortName: "Monza", countryCode: "IT", countryKey: 39, location: "Monza, Italy", meetingKey: 101, meetingOfficialName: "Italian Grand Prix", year: 2024),
-        Meeting(circuitKey: 2, circuitShortName: "Silverstone", countryCode: "GB", countryKey: 44, location: "Silverstone, UK", meetingKey: 102, meetingOfficialName: "British Grand Prix", year: 2024),
-        Meeting(circuitKey: 3, circuitShortName: "Spa", countryCode: "BE", countryKey: 32, location: "Spa, Belgium", meetingKey: 103, meetingOfficialName: "Belgian Grand Prix", year: 2024),
-        Meeting(circuitKey: 4, circuitShortName: "Suzuka", countryCode: "JP", countryKey: 81, location: "Suzuka, Japan", meetingKey: 104, meetingOfficialName: "Japanese Grand Prix", year: 2024),
-        Meeting(circuitKey: 5, circuitShortName: "Interlagos", countryCode: "BR", countryKey: 55, location: "São Paulo, Brazil", meetingKey: 105, meetingOfficialName: "Brazilian Grand Prix", year: 2024)
-        ]
+//    @State var meetings: [Meeting] = [
+//        Meeting(circuitKey: 1, circuitShortName: "Monza", countryCode: "IT", countryKey: 39, location: "Monza, Italy", meetingKey: 101, meetingOfficialName: "Italian Grand Prix", year: 2024),
+//        Meeting(circuitKey: 2, circuitShortName: "Silverstone", countryCode: "GB", countryKey: 44, location: "Silverstone, UK", meetingKey: 102, meetingOfficialName: "British Grand Prix", year: 2024),
+//        Meeting(circuitKey: 3, circuitShortName: "Spa", countryCode: "BE", countryKey: 32, location: "Spa, Belgium", meetingKey: 103, meetingOfficialName: "Belgian Grand Prix", year: 2024),
+//        Meeting(circuitKey: 4, circuitShortName: "Suzuka", countryCode: "JP", countryKey: 81, location: "Suzuka, Japan", meetingKey: 104, meetingOfficialName: "Japanese Grand Prix", year: 2024),
+//        Meeting(circuitKey: 5, circuitShortName: "Interlagos", countryCode: "BR", countryKey: 55, location: "São Paulo, Brazil", meetingKey: 105, meetingOfficialName: "Brazilian Grand Prix", year: 2024)
+//    ]
+    @State var meetings: [Meeting] = []
     
     var body: some View {
         NavigationStack {
@@ -32,11 +33,11 @@ struct ContentView: View {
                 }
                 ScrollView {
                     VStack(alignment: .leading) {
-                        ForEach(Array(zip(gps.indices, gps)), id: \.1.circuitKey) { c, gp in
+                        ForEach(Array(zip(meetings.indices, meetings)), id: \.1.circuitKey) { c, meeting in
                             NavigationLink {
-                                MeetingsView()
+                                MeetingsView(meeting: meeting)
                             } label: {
-                                MeetingCard(meeting: gp, round: c+1)
+                                MeetingCard(meeting: meeting, round: c+1)
                             }
                             .tint(.primary)
                         }
@@ -45,12 +46,11 @@ struct ContentView: View {
             }
         }
         .monospaced()
-//        .onAppear {
-//            cVM.start(year: year)
-//        }
-//        .onChange(of: year) { oldValue, newValue in
-//            cVM.start(year: newValue)
-//        }
+        .onAppear {
+            fetch(link: String(format: "https://api.openf1.org/v1/meetings?year=%d", year), type: [Meeting].self) { meetings in
+                self.meetings = meetings
+            }
+        }
     }
 }
 

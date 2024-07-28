@@ -10,6 +10,7 @@ import SwiftUI
 struct MeetingCard: View {
     let meeting: Meeting
     let round: Int
+    
     var body: some View {
         VStack(alignment: .leading) {
             Text("ROUND \(round)")
@@ -19,18 +20,14 @@ struct MeetingCard: View {
                 .font(.title2)
                 .bold()
             Text(meeting.meetingOfficialName)
+                .multilineTextAlignment(.leading)
         }
     }
 }
 
 struct MeetingsView: View {
-    @State var sessions: [Session] = [
-        Session(dateStart: Date(), sessionKey: 201, sessionName: "Practice 1", sessionType: "Practice"),
-        Session(dateStart: Date(), sessionKey: 202, sessionName: "Practice 2", sessionType: "Practice"),
-        Session(dateStart: Date(), sessionKey: 203, sessionName: "Practice 3", sessionType: "Practice"),
-        Session(dateStart: Date(), sessionKey: 204, sessionName: "Qualifying", sessionType: "Qualifying"),
-        Session(dateStart: Date(), sessionKey: 205, sessionName: "Race", sessionType: "Race")
-    ]
+    @State var sessions: [Session] = []
+    let meeting: Meeting
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -43,13 +40,15 @@ struct MeetingsView: View {
             }
         }
         .onAppear {
-            
+            fetch(link: String(format: "https://api.openf1.org/v1/sessions?meeting_key=%d", meeting.meetingKey), type: [Session].self) { sessions in
+                self.sessions = sessions.reversed()
+            }
         }
     }
 }
 
 #Preview {
     NavigationStack {
-        MeetingsView()
+        ContentView()
     }
 }

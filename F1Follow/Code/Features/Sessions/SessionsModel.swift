@@ -8,7 +8,7 @@
 import Foundation
 
 struct Session: Codable {
-    let dateStart: Date
+    let dateStart: String
     let sessionKey: Int
     let sessionName, sessionType: String
 
