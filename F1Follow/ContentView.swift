@@ -39,7 +39,7 @@ struct ContentView: View {
             case .standings:
                 StandingsView()
             case .races:
-                Text("")
+                RacesView()
             }
             
             VStack {

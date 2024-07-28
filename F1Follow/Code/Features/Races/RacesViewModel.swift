@@ -95,7 +95,10 @@ class RacesViewModel: ObservableObject {
             for position in positions.reversed() {
                 if !newPositions.contains(where: { $0.driverNumber == position.driverNumber }) {
                     if let index = self.drivers.firstIndex(where: { $0.driverNumber == position.driverNumber }) {
-                        self.drivers.swapAt(index, position.position-1)
+                        withAnimation {
+                            self.drivers[index].position = position.position
+                            self.drivers.swapAt(index, position.position-1)                            
+                        }
                         newPositions.append(position)
                         if newPositions.count >= 20 {
                             break
@@ -128,35 +131,16 @@ class RacesViewModel: ObservableObject {
     }
 }
 
-struct DriverCard: View {
-    @ObservedObject var driver: Driver
-    @State var liveTime: Double = 0
-    let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
-    
-    var body: some View {
-        HStack {
-            Text(driver.lastName)
-            if let bestLap = driver.bestLap {
-                Text(bestLap.lapDuration!.lapTime())
-            }
-            Text(liveTime.lapTime())
-        }
-        .monospaced()
-        .onReceive(timer, perform: { _ in
-            if let lastLap = driver.lastLap {
-                liveTime = lastLap.lapLiveTime() ?? 0
-            }
-        })
-    }
-}
-
 struct test: View {
     @ObservedObject var racesVM = RacesViewModel(session: "latest")
     var body: some View {
-        VStack {
-            ForEach(racesVM.drivers, id: \.driverNumber) { driver in
-                DriverCard(driver: driver)
+        ScrollView {
+            VStack {
+                ForEach(racesVM.drivers, id: \.driverNumber) { driver in
+                    DriverCard(driver: driver)
+                }
             }
+            .background(Color(red: 34/255, green: 34/255, blue: 43/255))
         }
     }
 }
