@@ -34,25 +34,7 @@ struct ContentView: View {
                     VStack(alignment: .leading) {
                         ForEach(Array(zip(gps.indices, gps)), id: \.1.circuitKey) { c, gp in
                             NavigationLink {
-                                @State var sessions: [Session] = [
-                                        Session(dateStart: Date(), sessionKey: 201, sessionName: "Practice 1", sessionType: "Practice"),
-                                        Session(dateStart: Date(), sessionKey: 202, sessionName: "Practice 2", sessionType: "Practice"),
-                                        Session(dateStart: Date(), sessionKey: 203, sessionName: "Practice 3", sessionType: "Practice"),
-                                        Session(dateStart: Date(), sessionKey: 204, sessionName: "Qualifying", sessionType: "Qualifying"),
-                                        Session(dateStart: Date(), sessionKey: 205, sessionName: "Race", sessionType: "Race")
-                                    ]
-                                VStack(alignment: .leading) {
-                                    ForEach(sessions, id: \.sessionKey) { session in
-                                        NavigationLink {
-                                            Text("boa")
-                                        } label: {
-                                            SessionCard(session: session)
-                                        }
-                                    }
-                                }
-                                .onAppear {
-                                    
-                                }
+                                MeetingsView()
                             } label: {
                                 MeetingCard(meeting: gp, round: c+1)
                             }
