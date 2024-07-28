@@ -31,12 +31,16 @@ struct MeetingsView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            ForEach(sessions, id: \.sessionKey) { session in
-                NavigationLink {
-                    SessionsView(session: "\(session.sessionKey)")
-                } label: {
-                    SessionCard(session: session)
+            if sessions.count > 0 {
+                ForEach(sessions, id: \.sessionKey) { session in
+                    NavigationLink {
+                        SessionsView(session: "\(session.sessionKey)")
+                    } label: {
+                        SessionCard(session: session)
+                    }
                 }
+            } else {
+                ProgressView()
             }
         }
         .onAppear {

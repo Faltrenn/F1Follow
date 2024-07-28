@@ -84,49 +84,6 @@ struct SessionsView: View {
     func fetchDrivers() {
         fetch(link: "https://api.openf1.org/v1/drivers?session_key=\(session)", type: [Driver].self) { drivers in
             self.drivers = drivers
-            self.refreshDriverLaps()
-        }
-    }
-    
-    func refreshDriverLaps() {
-        fetch(link: "https://api.openf1.org/v1/laps?session_key=\(session)", type: [Lap].self) { laps in
-            var bestSectors: [Double] = [0, 0, 0]
-            for lap in laps {
-                for c in 0...2 {
-                    if let time = lap.sectorsTimes[c] {
-                        if time < bestSectors[c] {
-                            bestSectors[c] = time
-                        }
-                    }
-                }
-                if let driver = self.getDriverByNumber(number: lap.driverNumber) {
-                    if driver.lastLap == nil || driver.lastLap!.lapNumber < lap.lapNumber {
-                        driver.lastLap = lap
-                    }
-                    if lap.lapDuration != nil {
-                        if driver.bestLap == nil || driver.bestLap!.lapDuration! > lap.lapDuration! {
-                            driver.bestLap = lap
-                        }
-                    }
-                }
-            }
-            for driver in self.drivers {
-                if let lap = driver.lastLap {
-                    for c in 0...2 {
-                        if let lapTime = lap.sectorsTimes[c] {
-                            withAnimation {
-                                if lapTime == bestSectors[c] {
-                                    driver.sectors[c] = .purple
-                                } else if lapTime <= driver.bestSectors[c] {
-                                    driver.sectors[c] = .green
-                                } else {
-                                    driver.sectors[c] = .yellow
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
     
