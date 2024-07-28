@@ -109,7 +109,7 @@ struct ContentView: View {
                                     
                                 }
                             } label: {
-                                MeetingCard(gp: gp, round: c+1)
+                                MeetingCard(meeting: gp, round: c+1)
                             }
                             .tint(.primary)
                         }
