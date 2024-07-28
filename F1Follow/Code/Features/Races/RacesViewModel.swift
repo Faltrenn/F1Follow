@@ -73,7 +73,6 @@ import SwiftUI
 class RacesViewModel: ObservableObject {
     let session: String
     @Published var drivers: [Driver] = []
-    var lastPosition: Position?
     
     
     init(session: String) {
@@ -121,7 +120,6 @@ class RacesViewModel: ObservableObject {
                     }
                 }
             }
-            print("?")
         }
     }
     

@@ -35,7 +35,7 @@ extension Double {
         if minimum && minutes == 0 {
             return "\(seconds):\(milliseconds)"
         }
-        return "\(minutes):\(seconds):\(milliseconds)"
+        return String(format: "%d:%02d:%@", minutes, seconds, milliseconds.description)
     }
 }
 
