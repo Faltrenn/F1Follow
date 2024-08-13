@@ -128,6 +128,7 @@ class Driver: ObservableObject, Codable {
     @Published var lastLap: Lap?
     @Published var bestSectors: [Double]
     @Published var sectors: [Sector?]
+    @Published var bestSessionLap = false
 
     enum CodingKeys: String, CodingKey {
         case driverNumber = "driver_number"

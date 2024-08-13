@@ -78,6 +78,7 @@ struct SessionsView: View {
             fetchPositions()
             fetchRanking()
             fetchDrivers()
+            fetchLaps()
         }
     }
     
@@ -110,6 +111,55 @@ struct SessionsView: View {
                 }
             }
             self.ranking.sort { $0.position < $1.position }
+        }
+    }
+    
+    func fetchLaps() {
+        fetch(link: "https://api.openf1.org/v1/laps?session_key=\(session)", type: [Lap].self) { laps in
+            var bestSectors: [Double] = [0, 0, 0]
+            for lap in laps {
+                for c in 0...2 {
+                    if let time = lap.sectorsTimes[c] {
+                        if time < bestSectors[c] {
+                            bestSectors[c] = time
+                        }
+                    }
+                }
+                if let driver = self.getDriverByNumber(number: lap.driverNumber) {
+                    if driver.lastLap == nil || driver.lastLap!.lapNumber < lap.lapNumber {
+                        driver.lastLap = lap
+                    }
+                    if lap.lapDuration != nil {
+                        if driver.bestLap == nil || driver.bestLap!.lapDuration! > lap.lapDuration! {
+                            driver.bestLap = lap
+                        }
+                    }
+                }
+            }
+            var bestSessionLapDriver: Driver?
+            for driver in self.drivers {
+                if let bl = driver.bestLap {
+                    if bestSessionLapDriver == nil || bestSessionLapDriver!.bestLap!.lapDuration! > bl.lapDuration! {
+                        bestSessionLapDriver = driver
+                    }
+                }
+                if let lap = driver.lastLap {
+                    for c in 0...2 {
+                        if let lapTime = lap.sectorsTimes[c] {
+                            withAnimation {
+                                if lapTime == bestSectors[c] {
+                                    driver.sectors[c] = .purple
+                                } else if lapTime <= driver.bestSectors[c] {
+                                    driver.sectors[c] = .green
+                                } else {
+                                    driver.sectors[c] = .yellow
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            bestSessionLapDriver?.bestSessionLap = true
         }
     }
     

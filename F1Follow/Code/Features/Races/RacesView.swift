@@ -126,7 +126,11 @@ struct SimpleDriverCard: View {
                 .bold()
                 .font(.title2)
             Spacer()
-            Text("\(driver.getPositionScore())")
+            if let bestLap = driver.bestLap {
+                Text(bestLap.lapDuration!.lapTime())
+                    .font(.title2)
+            }
+            Text("\(driver.getPositionScore() + (driver.bestSessionLap ? 1 : 0))")
         }
         .background(Color(red: 34/255, green: 34/255, blue: 43/255))
     }
@@ -153,6 +157,8 @@ struct RacesView: View {
     }
 }
 
-//#Preview {
-//    ContentView(page: .races)
-//}
+#Preview {
+    NavigationStack {
+        SessionsView(session: "latest")
+    }
+}

@@ -77,7 +77,6 @@ class RacesViewModel: ObservableObject {
     
     init(session: String) {
         self.session = session
-        
         self.fetchDriver()
     }
     
@@ -156,20 +155,20 @@ class RacesViewModel: ObservableObject {
     }
 }
 
-//struct test: View {
-//    @ObservedObject var racesVM = RacesViewModel(session: "latest")
-//    var body: some View {
-//        ScrollView {
-//            VStack {
-//                ForEach(racesVM.drivers, id: \.driverNumber) { driver in
-//                    DriverCard(driver: driver)
-//                }
-//            }
-//            .background(Color(red: 34/255, green: 34/255, blue: 43/255))
-//        }
-//    }
-//}
-//
-//#Preview {
-//    test()
-//}
+struct test: View {
+    @ObservedObject var racesVM = RacesViewModel(session: "latest")
+    var body: some View {
+        ScrollView {
+            VStack {
+                ForEach(racesVM.drivers, id: \.driverNumber) { driver in
+                    DriverCard(driver: driver)
+                }
+            }
+            .background(Color(red: 34/255, green: 34/255, blue: 43/255))
+        }
+    }
+}
+
+#Preview {
+    test()
+}
